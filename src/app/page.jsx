@@ -1,16 +1,14 @@
 import Image from "next/image";
+import Navbar from "../app/navbar/navbar";
+import Link from "next/link";
+
+
 
 export default function Home() {
   return (
     <>
-        {/* Navbar Section */}
-        {/* Carosell Section */}
-        {/* Premium Car Rental Section */}
-        {/* Premium Car card Section */}
-        {/* Find Car Section */}
-        {/* Pick your Dream Car Today Section */}
-        {/* Stories Behind the wheel Section */}
-        {/* Footer Section */}
+    <h1><Link href="/booking">Link</Link></h1>  
+    <Navbar/>
     </>
   );
 }
