@@ -1,13 +1,14 @@
 import Image from "next/image";
-import Navbar from "./components/navbar/navbar";
+import Carousel from "./components/carousel/carousel";
 import Link from "next/link";
 
 
 
 export default function Home() {
   return (
-    <>  
-    <Navbar/>
+    <>
+    <Carousel/>
     </>
+    
   );
 }

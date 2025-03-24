@@ -8,7 +8,7 @@ const navData = {
     url: "/"
   },
   navigation: [
-    { text: "Home", url: "/car" },
+    { text: "How it's Work", url: "/car" },
     { text: "Booking", url: "/booking" },
     { text: "Services", url: "/car_services" },
     { text: "Contact Us", url: "/contact_us" }
@@ -21,7 +21,7 @@ const navData = {
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between p-3">
+    <nav className="flex items-center justify-between p-3 bg-gradient-to">
       {/* Logo (Left) */}
       <h1 className="font-bold text-2xl">
         <Link href={navData.logo.url}>{navData.logo.text}</Link>
