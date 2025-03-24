@@ -28,7 +28,7 @@ const Navbar = () => {
       </h1>
 
       {/* Navigation Links (Center) */}
-      <ul className="flex gap-20 text-base font-bold">
+      <ul className="flex gap-25 text-base font-bold">
         {navData.navigation.map((item, index) => (
           <li key={index}>
             <Link href={item.url} className="hover:text-amber-600 transition">
