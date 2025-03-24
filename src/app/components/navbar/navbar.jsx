@@ -4,7 +4,7 @@ import React from 'react';
 // JSON Navigation Data
 const navData = {
   logo: {
-    text: "LOGO",
+    text: "RENTAL",
     url: "/"
   },
   navigation: [
@@ -21,14 +21,14 @@ const navData = {
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between bg-amber-100 p-5">
+    <nav className="flex items-center justify-between p-3">
       {/* Logo (Left) */}
-      <h1 className="font-bold text-lg">
+      <h1 className="font-bold text-2xl">
         <Link href={navData.logo.url}>{navData.logo.text}</Link>
       </h1>
 
       {/* Navigation Links (Center) */}
-      <ul className="flex gap-8 text-base font-semibold">
+      <ul className="flex gap-20 text-base font-bold">
         {navData.navigation.map((item, index) => (
           <li key={index}>
             <Link href={item.url} className="hover:text-amber-600 transition">
@@ -39,7 +39,7 @@ const Navbar = () => {
       </ul>
 
       {/* Auth Buttons (Right) */}
-      <div className="flex gap-5">
+      <div className="flex gap-3 font-bold">
         {navData.auth.map((item, index) => (
           <Link 
             key={index} 
