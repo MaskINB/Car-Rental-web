@@ -4,14 +4,14 @@ import React from 'react';
 // JSON Navigation Data
 const navData = {
   logo: {
-    text: "RENTAL",
+    text: "LOGO",
     url: "/"
   },
   navigation: [
     { text: "Home", url: "/car" },
     { text: "Booking", url: "/booking" },
     { text: "Services", url: "/car_services" },
-    { text: "Contact Us", url: "/contact_us" },
+    { text: "Contact Us", url: "/contact_us" }
   ],
   auth: [
     { text: "Sign in", url: "/sign_in" },
@@ -21,23 +21,25 @@ const navData = {
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between p-2">
+    <nav className="flex items-center justify-between bg-amber-100 p-5">
       {/* Logo (Left) */}
-      <h1 className="font-bold font-impact text-2xl pl-3">
+      <h1 className="font-bold text-lg">
         <Link href={navData.logo.url}>{navData.logo.text}</Link>
       </h1>
 
       {/* Navigation Links (Center) */}
-      <ul className="flex gap-20 text-base font-bold">
+      <ul className="flex gap-8 text-base font-semibold">
         {navData.navigation.map((item, index) => (
           <li key={index}>
-            <Link href={item.url} className="hover:text-amber-600 transition">{item.text}</Link>
+            <Link href={item.url} className="hover:text-amber-600 transition">
+              {item.text}
+            </Link>
           </li>
         ))}
       </ul>
 
       {/* Auth Buttons (Right) */}
-      <div className="flex gap-5 pr-3">
+      <div className="flex gap-5">
         {navData.auth.map((item, index) => (
           <Link 
             key={index} 

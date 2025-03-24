@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Navbar from "../app/navbar/navbar";
+import Navbar from "./components/navbar/navbar";
 import Link from "next/link";
 
 
