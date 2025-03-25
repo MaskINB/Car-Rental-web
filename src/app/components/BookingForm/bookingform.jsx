@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Poppins } from 'next/font/google';
+import { localFont } from 'next/font/local';
 
-const Poppins = Poppins({
-  subsets: ['latin'],
-  weight: ["400"],
+const IBM = localFont({
+  src: '/font/IBMPlexSans-Bold.ttf',
 });
 
 const BookingForm = () => {
@@ -22,7 +21,7 @@ const BookingForm = () => {
   return (
     <>
       <div className="text-center mt-[-70px] relative top-0">
-        <h1 className={`text-7xl relative ${Poppins.className}`}>PREMIUM CAR</h1>
+        <h1 className={`text-7xl relative`}>PREMIUM CAR</h1>
         <h1 className="font-bold text-8xl pb-15">RENTAL</h1>
       </div>
 
