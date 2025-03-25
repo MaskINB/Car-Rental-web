@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { localFont } from 'next/font/local';
+import { Cuprum } from 'next/font/google';
 
-const IBM = localFont({
+const getCuprum= Cuprum({
   src: '/font/IBMPlexSans-Bold.ttf',
 });
 
@@ -21,8 +21,8 @@ const BookingForm = () => {
   return (
     <>
       <div className="text-center mt-[-70px] relative top-0">
-        <h1 className={`text-7xl relative`}>PREMIUM CAR</h1>
-        <h1 className="font-bold text-8xl pb-15">RENTAL</h1>
+        <h1 className={`text-8xl  font-bold relative${getCuprum.className}`}>PREMIUM CAR</h1>
+        <h1 className={`font-bold text-8xl  ${getCuprum.className}`}>RENTAL</h1>
       </div>
 
       <div className="bg-white shadow-md p-4 flex flex-col sm:flex-row items-center max-w-3xl mx-auto rounded-lg">
