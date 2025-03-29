@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Cuprum } from 'next/font/google';
+import Image from "next/image";
+import Image1 from "../../../../public/image/new.png";
 
 const getCuprum= Cuprum({
   src: '/font/IBMPlexSans-Bold.ttf',
@@ -20,9 +22,9 @@ const BookingForm = () => {
 
   return (
     <>
-      <div className="text-center mt-[-70px] relative top-0">
+      <div className="text-center mt-[-70px] relative top-0 pb-5">
         <h1 className={`text-8xl  font-bold relative${getCuprum.className}`}>PREMIUM CAR</h1>
-        <h1 className={`font-bold text-8xl  ${getCuprum.className}`}>RENTAL</h1>
+        <h1 className={`text-8xl  font-bold relative${getCuprum.className}`}>RENTAL</h1>
       </div>
 
       <div className="bg-white shadow-md p-4 flex flex-col sm:flex-row items-center max-w-3xl mx-auto rounded-lg">
@@ -64,6 +66,15 @@ const BookingForm = () => {
         <button className="bg-black text-white p-3 rounded-lg ml-4 hover:bg-gray-800 transition">
           <FaSearch size={18} />
         </button>
+      </div>
+      {/* Image Section */}
+      <div className="relative flex justify-center -top-30">
+        <Image
+          src={Image1}
+          className="p-4 w-200"
+          width={500}
+          alt="Car"
+        />
       </div>
     </>
   );
