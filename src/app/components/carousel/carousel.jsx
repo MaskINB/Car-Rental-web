@@ -7,14 +7,13 @@ import Link from 'next/link';
 const carousel = () => {
   return (
     <>
-    <div className="bg-gradient-to-t from-yellow-500 from-0% to-slate-200 to-100% pt-0 pb-125 relative">
+    <div className="bg-gradient-to-t from-yellow-500 from-0% to-slate-200 to-100% relative pb-12">
       <Navbar />
       <div className="relative top-30 bottom-0">
       <BookingForm />
       </div>
-      <div className="relative top-129 bottom-0 bg-gray-300 flex justify-center items-center">
+      <div className="relative top-13 bottom-0 bg-gray-300 flex justify-center items-center">
         {/* Your carousel content */}
-
         {/* Button positioned at the bottom-middle (50% inside, 50% outside) */}
         <div className="absolute bottom-[-24px] left-1/2 transform -translate-x-1/2">
           <Link href="/car"><Carouselbutton/></Link>
