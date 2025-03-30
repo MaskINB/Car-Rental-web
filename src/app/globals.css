@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@layer utilities {
+    .rotate-vertical {
+      transform: rotateY(90deg);
+    }
+  }
+  
