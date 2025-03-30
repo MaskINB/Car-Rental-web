@@ -4,7 +4,7 @@ import Seeallbutton from '../Buttons/seeallbutton';
 import Image from 'next/image';
 
 const SecondSection = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('/data.json')
@@ -13,29 +13,39 @@ const SecondSection = () => {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
-  if (!data) {
+  if (!data.length) {
     return <p className="text-center text-lg">Loading...</p>;
   }
 
   return (
-    <div id={`section-${data.id}`} className="pt-40 pb-30 px-5 flex items-center justify-between gap-10 pl-45">
+    <div id={`section-${data[0].id}`} className="pt-40 pb-30 px-5 flex items-center justify-between gap-10 pl-45">
       {/* Text Section */}
       <div className="w-1/2">
-        <h1 className="text-6xl font-bold mb-4">{data.title}</h1>
-        <p className="text-lg pt-5 text-gray-700 leading-relaxed ">{data.description}</p>
+        <h1 className="text-6xl font-bold mb-4">{data[0].title}</h1>
+        <p className="text-lg pt-5 text-gray-700 leading-relaxed">{data[0].description}</p>
         <div className="flex relative -top-10 right-15">
           <Seeallbutton />
         </div>
       </div>
 
-      {/* Image Section */}
-      <div className="w-1/2 relative overflow-x-hidden">
+        <div className="flex relative top-20 left-50 w-1/1">
+          {/* First Image */}
         <Image
-          src={data.image}
+          src={data[0].image}
           alt="Premium Car"
           width={500}
           height={300}
-          className="w-full h-auto object-cover shadow-lg "
+          className=""
+        />
+      </div>
+      {/* Second Image */}
+      <div className="flex relative top-110 right-300">
+        <Image
+          src={data[1].image}
+          alt="Premium Car"
+          width={500}
+          height={300}
+          className="w-100"
         />
       </div>
     </div>

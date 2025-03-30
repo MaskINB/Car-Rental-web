@@ -1,7 +1,14 @@
-{
-    "id": 1,
+[
+  {
+    "id": 0,
     "title": "PREMIUM CAR RENTAL",
     "description": "Select Car Service is ready to help with service and repairs of exclusive modern and classic cars. With our workshop for exclusive cars, we have the opportunity to provide the best service for your car in a separate specialist workshop. Contact us to find out more about what we can offer you and your car at our exclusive workshop.",
     "image": "/image/pcar.jpeg"
+  },
+  {
+    "id": 1,
+    "title": "ECONOMY CAR RENTAL",
+    "description": "Affordable car rental services for your everyday needs. Choose from a wide range of economy cars that are fuel-efficient and budget-friendly. Contact us to book your ride today.",
+    "image": "/image/Rcar.jpeg"
   }
-  
+]
