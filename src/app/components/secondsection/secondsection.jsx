@@ -7,7 +7,7 @@ const SecondSection = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/secondsectiondata')
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/secondsectiondata`)
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error('Error fetching data:', error));
