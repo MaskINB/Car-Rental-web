@@ -74,6 +74,7 @@ const BookingForm = () => {
           className="p-4 w-200"
           width={500}
           alt="Car"
+          priority={true}
         />
       </div>
     </>
