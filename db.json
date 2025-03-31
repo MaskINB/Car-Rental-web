@@ -12,5 +12,15 @@
       "description": "Affordable car rental services for your everyday needs. Choose from a wide range of economy cars that are fuel-efficient and budget-friendly. Contact us to book your ride today.",
       "image": "/image/Rcar.jpeg"
     }
+  ],
+  "images": [
+    {
+      "id": 0,
+      "image": "/image/pcar.jpeg"
+    },
+    {
+      "id": 1,
+      "image": "/image/Rcar.jpeg"
+    }
   ]
 }

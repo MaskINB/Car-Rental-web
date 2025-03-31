@@ -7,7 +7,7 @@ const SecondSection = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/secondsectiondata`)
+    fetch(`http://localhost:4000/secondsectiondata`)
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error('Error fetching data:', error));
@@ -22,7 +22,7 @@ const SecondSection = () => {
       {/* Text Section */}
       <div className="w-1/2">
         <h1 className="text-6xl font-bold mb-4">{data[0].title}</h1>
-        <p className="text-lg pt-5 text-gray-700 leading-relaxed">{data[0].description}</p>
+        <p className="text-5xl">{data[0].description}</p>
         <div className="flex relative -top-10 right-15">
           <Seeallbutton />
         </div>
