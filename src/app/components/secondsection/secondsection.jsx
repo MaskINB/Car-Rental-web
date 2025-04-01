@@ -18,24 +18,24 @@ const SecondSection = () => {
   }
 
   return (
-    <div id={`section-${data[0].id}`} className="pt-40 pb-30 px-5 flex items-center justify-between gap-10 pl-45">
+    <div id={`section-${data[0].id}`} className="pt-40 pb-30 px-5 flex items-center justify-between gap-10 pl-20 pr-50">
       {/* Text Section */}
       <div className="w-1/2">
         <h1 className="text-6xl font-bold mb-4">{data[0].title}</h1>
-        <p className="text-5xl">{data[0].description}</p>
+        <p className="text-1xl">{data[0].description}</p>
         <div className="flex relative -top-10 right-15">
           <Seeallbutton />
         </div>
       </div>
 
-        <div className="flex relative top-20 left-50 w-1/1">
+        <div className="absolute right-5 ">
           {/* First Image */}
         <Image
           src={data[0].image}
           alt="Premium Car"
           width={500}
           height={300}
-          className=""
+          className="w-1xl h-auto object-contain "
         />
       </div>
       {/* Second Image */}

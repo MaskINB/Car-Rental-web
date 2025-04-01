@@ -10,7 +10,6 @@ const carousel = () => {
     <div className="bg-gradient-to-t from-yellow-500 from-0% to-slate-200 to-100% relative pb-12">
       <Navbar />
       <div className="relative top-30 bottom-0">
-      <BookingForm />
       </div>
       <div className="relative top-13 bottom-0 bg-gray-300 flex justify-center items-center">
         {/* Your carousel content */}
