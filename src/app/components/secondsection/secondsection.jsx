@@ -31,7 +31,7 @@ const SecondSection = () => {
         <div className="absolute right-5 ">
           {/* First Image */}
         <Image
-          src={data[0].image}
+          src={data[1].image}
           alt="Premium Car"
           width={500}
           height={300}
