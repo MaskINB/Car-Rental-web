@@ -7,14 +7,14 @@ const SecondSection = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/secondsectiondata`)
+    fetch(`http://localhost:4000/secondsectiondata`)
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   if (!data.length) {
-    return <p className="text-center text-lg">Loading...</p>;
+    return <p className="text-center text-lg">Loding....</p>;
   }
 
   return (
