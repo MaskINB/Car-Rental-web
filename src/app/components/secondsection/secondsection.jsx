@@ -39,15 +39,6 @@ const SecondSection = () => {
         />
       </div>
       {/* Second Image */}
-      <div className="flex relative top-110 right-300">
-        <Image
-          src={data[1].image}
-          alt="Premium Car"
-          width={500}
-          height={300}
-          className="w-100"
-        />
-      </div>
     </div>
   );
 };
