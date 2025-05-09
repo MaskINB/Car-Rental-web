@@ -33,7 +33,7 @@ const forthSection = () => {
               {/* Background map image */}
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/images/map-background.jpg" 
+                  src="/image/Vans.jpeg" 
                   alt="Location Map" 
                   className="w-full h-full object-cover opacity-30"
                 />
