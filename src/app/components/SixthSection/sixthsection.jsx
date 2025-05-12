@@ -32,7 +32,7 @@ const SixthSection = () => {
     }
   ];
 
-  const brand = [
+  const brands = [
     { name: 'Land Rover', path: '/image/cars.jpeg' },
     { name: 'Audi', path: '/logos/audi.svg' },
     { name: 'Lamborghini', path: '/logos/lamborghini.svg' },
@@ -40,7 +40,7 @@ const SixthSection = () => {
     { name: 'BMW', path: '/logos/bmw.svg' },
     { name: 'Honda', path: '/logos/honda.svg' },
     { name: 'Nissan', path: '/logos/nissan.svg' }
-];
+  ];
 
   return (
     <div className='py-16 px-8 bg-white max-w-7xl mx-auto'>
@@ -49,7 +49,7 @@ const SixthSection = () => {
       <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
         {stories.map((story) => (
           <div key={story.id} className='flex flex-col'>
-            <div className='flex items-center mb-6'>
+            <div className='flex items-start mb-6'>
               <div className='mr-4'>
                 <span className='text-3xl font-bold block'>{story.date}</span>
                 <span className='text-sm text-gray-600 block'>{story.month} {story.year}</span>
@@ -64,8 +64,8 @@ const SixthSection = () => {
                 <Image 
                   src={story.image}
                   alt={story.title}
-                  layout='fill'
-                  objectFit='cover'
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
               </div>
             </div>
@@ -80,11 +80,11 @@ const SixthSection = () => {
       </div>
       
       <div className='mt-16 flex flex-wrap justify-center gap-8'>
-        {['land-rover', 'audi', 'lamborghini', 'ferrari', 'bmw', 'honda', 'nissan'].map((brand) => (
-          <div key={brand} className='w-20 h-20 opacity-70 hover:opacity-100 transition'>
+        {brands.map((brand) => (
+          <div key={brand.name} className='w-20 h-20 opacity-70 hover:opacity-100 transition'>
             <Image 
-              src={`/images/logos/${brand}.svg`}
-              alt={brand}
+              src={brand.path}
+              alt={brand.name}
               width={80}
               height={80}
             />
