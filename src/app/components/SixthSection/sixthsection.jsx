@@ -30,7 +30,17 @@ const SixthSection = () => {
       description: 'Get in touch if you need expert advice on anything.',
       image: '/image/cars.jpeg'
     }
-  ]
+  ];
+
+  const brands = [
+    { name: 'Land Rover', path: '/logos/LandRover.png' },
+    { name: 'Audi', path: '/logos/Audi.png' },
+    { name: 'Lamborghini', path: '/logos/Lamborgini.png' },
+    { name: 'Ferrari', path: '/logos/Ferrari.png' },
+    { name: 'BMW', path: '/logos/BMW.png'},
+    { name: 'Honda', path: '/logos/Honda.png'},
+    { name: 'Nissan', path: '/logos/Nissan.png' }
+  ];
 
   return (
     <div className='py-16 px-8 bg-white max-w-7xl mx-auto'>
@@ -39,7 +49,7 @@ const SixthSection = () => {
       <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
         {stories.map((story) => (
           <div key={story.id} className='flex flex-col'>
-            <div className='flex items-center mb-6'>
+            <div className='flex items-start mb-6'>
               <div className='mr-4'>
                 <span className='text-3xl font-bold block'>{story.date}</span>
                 <span className='text-sm text-gray-600 block'>{story.month} {story.year}</span>
@@ -54,8 +64,8 @@ const SixthSection = () => {
                 <Image 
                   src={story.image}
                   alt={story.title}
-                  layout='fill'
-                  objectFit='cover'
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
               </div>
             </div>
@@ -70,11 +80,11 @@ const SixthSection = () => {
       </div>
       
       <div className='mt-16 flex flex-wrap justify-center gap-8'>
-        {['land-rover', 'audi', 'lamborghini', 'ferrari', 'bmw', 'honda', 'nissan'].map((brand) => (
-          <div key={brand} className='w-20 h-20 opacity-70 hover:opacity-100 transition'>
+        {brands.map((brand) => (
+          <div key={brand.name} className='w-20 h-20 opacity-70 hover:opacity-100 transition'>
             <Image 
-              src={`/images/logos/${brand}.svg`}
-              alt={brand}
+              src={brand.path}
+              alt={brand.name}
               width={80}
               height={80}
             />
