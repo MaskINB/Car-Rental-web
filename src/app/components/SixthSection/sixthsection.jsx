@@ -33,13 +33,13 @@ const SixthSection = () => {
   ];
 
   const brands = [
-    { name: 'Land Rover', path: '/image/cars.jpeg' },
-    { name: 'Audi', path: '/logos/audi.svg' },
-    { name: 'Lamborghini', path: '/logos/lamborghini.svg' },
-    { name: 'Ferrari', path: '/logos/ferrari.svg' },
-    { name: 'BMW', path: '/logos/bmw.svg' },
-    { name: 'Honda', path: '/logos/honda.svg' },
-    { name: 'Nissan', path: '/logos/nissan.svg' }
+    { name: 'Land Rover', path: '/logos/LandRover.png' },
+    { name: 'Audi', path: '/logos/Audi.png' },
+    { name: 'Lamborghini', path: '/logos/Lamborgini.png' },
+    { name: 'Ferrari', path: '/logos/Ferrari.png' },
+    { name: 'BMW', path: '/logos/BMW.png'},
+    { name: 'Honda', path: '/logos/Honda.png'},
+    { name: 'Nissan', path: '/logos/Nissan.png' }
   ];
 
   return (
