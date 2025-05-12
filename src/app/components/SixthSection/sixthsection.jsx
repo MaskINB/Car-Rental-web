@@ -30,7 +30,17 @@ const SixthSection = () => {
       description: 'Get in touch if you need expert advice on anything.',
       image: '/image/cars.jpeg'
     }
-  ]
+  ];
+
+  const brand = [
+    { name: 'Land Rover', path: '/image/cars.jpeg' },
+    { name: 'Audi', path: '/logos/audi.svg' },
+    { name: 'Lamborghini', path: '/logos/lamborghini.svg' },
+    { name: 'Ferrari', path: '/logos/ferrari.svg' },
+    { name: 'BMW', path: '/logos/bmw.svg' },
+    { name: 'Honda', path: '/logos/honda.svg' },
+    { name: 'Nissan', path: '/logos/nissan.svg' }
+];
 
   return (
     <div className='py-16 px-8 bg-white max-w-7xl mx-auto'>
