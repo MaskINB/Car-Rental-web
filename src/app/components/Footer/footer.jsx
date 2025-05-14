@@ -26,6 +26,23 @@ function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Pages Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Pages</h4>
+            <ul className="space-y-2">
+              <li><Link href="/rentals" className="hover:text-amber-500">Rentals</Link></li>
+              <li><Link href="/locations" className="hover:text-amber-500">Locations</Link></li>
+              <li><Link href="/faq" className="hover:text-amber-500">FAQ</Link></li>
+              <li><Link href="/features" className="hover:text-amber-500">Features</Link></li>
+              <li><Link href="/blog" className="hover:text-amber-500">Blog</Link></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </footer>
   )
 }
