@@ -65,6 +65,19 @@ function Footer() {
             </ul>
           </div>
 
+          {/* Product Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Product</h4>
+            <ul className="space-y-2">
+              <li><Link href="/demo" className="hover:text-amber-500">Demo</Link></li>
+              <li><Link href="/security" className="hover:text-amber-500">Security</Link></li>
+              <li><Link href="/faq" className="hover:text-amber-500">FAQ</Link></li>
+              <li><Link href="/features" className="hover:text-amber-500">Features</Link></li>
+            </ul>
+          </div>
+
+
+
     </footer>
   )
 }
