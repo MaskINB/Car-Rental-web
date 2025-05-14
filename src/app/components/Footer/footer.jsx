@@ -41,10 +41,8 @@ function Footer() {
               <li><Link href="/blog" className="hover:text-amber-500">Blog</Link></li>
             </ul>
           </div>
-        </div>
-      </div>
 
-      {/* Resources Column */}
+          {/* Resources Column */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
@@ -75,9 +73,9 @@ function Footer() {
               <li><Link href="/features" className="hover:text-amber-500">Features</Link></li>
             </ul>
           </div>
+        </div>
 
-        
-         {/* Social Media */}
+        {/* Social Media */}
         <div className="mt-10 flex justify-center md:justify-end">
           <h4 className="text-lg font-semibold mr-4">Follow Us</h4>
           <div className="flex space-x-4">
@@ -101,8 +99,9 @@ function Footer() {
             </a>
           </div>
         </div>
+      </div>
 
-         {/* Copyright Section */}
+      {/* Copyright Section */}
       <div className="border-t border-gray-700 py-6">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-400">All rights reserved © Premium Rental 2023</p>
@@ -112,8 +111,6 @@ function Footer() {
           </div>
         </div>
       </div>
-
-
     </footer>
   )
 }
