@@ -102,6 +102,17 @@ function Footer() {
           </div>
         </div>
 
+         {/* Copyright Section */}
+      <div className="border-t border-gray-700 py-6">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-gray-400">All rights reserved © Premium Rental 2023</p>
+          <div className="mt-4 md:mt-0 flex space-x-6">
+            <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-amber-500">Privacy Policy</Link>
+            <Link href="/terms-condition" className="text-sm text-gray-400 hover:text-amber-500">Terms & Condition</Link>
+          </div>
+        </div>
+      </div>
+
 
     </footer>
   )
