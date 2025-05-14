@@ -43,6 +43,28 @@ function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Resources Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Resources</h4>
+            <ul className="space-y-2">
+              <li><Link href="/installation-manual" className="hover:text-amber-500">Installation Manual</Link></li>
+              <li><Link href="/release-note" className="hover:text-amber-500">Release Note</Link></li>
+              <li><Link href="/community-help" className="hover:text-amber-500">Community Help</Link></li>
+            </ul>
+          </div>
+
+          {/* Company Column */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Company</h4>
+            <ul className="space-y-2">
+              <li><Link href="/about-us" className="hover:text-amber-500">About Us</Link></li>
+              <li><Link href="/career" className="hover:text-amber-500">Career</Link></li>
+              <li><Link href="/press" className="hover:text-amber-500">Press</Link></li>
+              <li><Link href="/support" className="hover:text-amber-500">Support</Link></li>
+            </ul>
+          </div>
+
     </footer>
   )
 }
