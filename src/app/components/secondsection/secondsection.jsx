@@ -70,7 +70,7 @@ const SecondSection = () => {
   }, [data]);
 
   if (!data.length) {
-    return <p className="text-center text-lg">Loading....</p>;
+    return <p className="text-center text-lg">Loading........</p>;
   }
 
   return (
