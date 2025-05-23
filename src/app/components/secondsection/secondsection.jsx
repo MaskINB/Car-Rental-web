@@ -22,32 +22,47 @@ const SecondSection = () => {
 
   useEffect(() => {
     if (data.length) {
+      // Kill previous triggers to prevent duplicates on hot reload
+      ScrollTrigger.getAll().forEach(t => t.kill());
+
+      // Animate Text
       gsap.fromTo(
         textRef.current,
-        { opacity: 0, x: -50 },
+        { opacity: 0, x: -100, skewX: 10 },
         {
           opacity: 1,
           x: 0,
-          duration: 1,
+          skewX: 0,
+          duration: 1.2,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
+            start: 'top 70%',
+            end: 'bottom 40%',
+            toggleActions: 'play reverse play reverse',
+            scrub: false,
+            markers: false,
           },
         }
       );
 
+      // Animate Image
       gsap.fromTo(
         imageRef.current,
-        { opacity: 0, x: 50 },
+        { opacity: 0, scale: 0.8, x: 100 },
         {
           opacity: 1,
+          scale: 1,
           x: 0,
-          duration: 1,
+          duration: 1.2,
+          ease: 'back.out(1.4)',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
+            start: 'top 70%',
+            end: 'bottom 40%',
+            toggleActions: 'play reverse play reverse',
+            scrub: false,
+            markers: false,
           },
         }
       );
