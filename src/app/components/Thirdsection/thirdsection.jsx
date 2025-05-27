@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,41 +27,49 @@ const vehicleCategories = [
 ];
 
 const ThirdSection = () => {
-  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const elements = gsap.utils.toArray('.category-card');
+    const cards = containerRef.current.querySelectorAll('.vehicle-card');
 
-    elements.forEach((el, index) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        delay: index * 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
+    cards.forEach((card, i) => {
+      gsap.fromTo(
+        card,
+        { autoAlpha: 0, y: 50 },
+        {
+          duration: 1,
+          autoAlpha: 1,
+          y: 0,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse', // play on enter, reverse on leave back
+          },
+          delay: i * 0.2, // stagger delay based on index
+        }
+      );
     });
 
+    // Cleanup function to kill all ScrollTriggers on unmount
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   return (
-    <div ref={sectionRef} className="p-10 bg-white text-center">
+    <div className="p-10 bg-white text-center">
       <h1 className="text-3xl md:text-4xl font-extrabold mb-10 text-gray-900">
         WIDE RANGE OF <br /> VEHICLES
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      <div
+        ref={containerRef}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto"
+      >
         {vehicleCategories.map((category, index) => (
           <div
             key={index}
-            className="relative group rounded-xl overflow-hidden shadow-md category-card"
+            className="relative group rounded-xl overflow-hidden shadow-md vehicle-card"
           >
             <Image
               src={category.image}
