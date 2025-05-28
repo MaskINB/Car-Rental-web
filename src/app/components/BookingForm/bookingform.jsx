@@ -1,86 +1,106 @@
 "use client";
 import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import Image from "next/image";
-import Image1 from "../../../../public/image/new.png";
+import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock } from "react-icons/fa";
 
 const BookingForm = () => {
-  // Dynamic Booking Data
   const [bookingData, setBookingData] = useState({
-    location: "Dallas, Texas",
-    start: "Oct 16, 11:00 AM",
-    stop: "Oct 18, 5:00 PM",
-    activeTab: "Car",
+    location: "Los Angeles, USA",
+    pickupDate: "May 05",
+    pickupTime: "09:30 PM",
+    returnDate: "May 06", 
+    returnTime: "08:00 PM",
   });
 
-  // Tabs
-  const tabs = ["Car", "Vans"];
-
   return (
-    <div className="flex flex-col items-center space-y-10">
-      {/* Website Name */}
-      <div className="text-center -mt-15">
-        <h1 className="text-7xl font-bold">PREMIUM CAR</h1>
-        <h1 className="text-7xl font-bold">RENTAL</h1>
-      </div>
-
-      {/* Booking Form */}
-      <div className="max-w-4xl w-full mx-auto rounded-lg relative ">
-        <div className="bg-gray-100 p-2 rounded-lg flex flex-col sm:flex-row items-center">
-          <div className="flex flex-col sm:flex-row w-full justify-between flex-wrap">
-            {/* Location Section with Tabs */}
-            <div className="text-left px-4 py-2 w-full sm:w-1/3">
-              <p className="text-sm font-semibold">Pick up & Return Location</p>
-              <p className="text-gray-500">{bookingData.location}</p>
-
-              {/* Car/Vans Tabs */}
-              <div className="flex space-x-2 mt-2">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab}
-                    className={`px-4 py-1 text-sm font-medium rounded-md transition ${
-                      bookingData.activeTab === tab
-                        ? "bg-black text-white"
-                        : "bg-gray-300 text-black hover:bg-black hover:text-white"
-                    }`}
-                    onClick={() => setBookingData((prev) => ({ ...prev, activeTab: tab }))}
-                  >
-                    {tab}
-                  </button>
-                ))}
+    <div className="w-full max-w-4xl mx-auto">
+      {/* Booking Form Card */}
+      <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-700/50 shadow-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          
+          {/* Location */}
+          <div className="space-y-2">
+            <label className="flex items-center text-gray-300 text-sm font-medium">
+              <FaMapMarkerAlt className="mr-2 text-blue-400" />
+              Choose a location
+            </label>
+            <div className="relative">
+              <select className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                <option value="los-angeles">{bookingData.location}</option>
+                <option value="new-york">New York, USA</option>
+                <option value="miami">Miami, USA</option>
+                <option value="chicago">Chicago, USA</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
             </div>
+          </div>
 
-            {/* Start Date */}
-            <div className="text-left px-4 py-2 w-full sm:w-1/3">
-              <p className="text-sm font-semibold">Start</p>
-              <p className="text-gray-500">{bookingData.start}</p>
+          {/* Pick-up Date */}
+          <div className="space-y-2">
+            <label className="flex items-center text-gray-300 text-sm font-medium">
+              <FaCalendarAlt className="mr-2 text-blue-400" />
+              Pick-up date
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={`${bookingData.pickupDate}, ${bookingData.pickupTime}`}
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                readOnly
+              />
+              <FaClock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
+          </div>
 
-            {/* Stop Date */}
-            <div className="text-left px-4 py-2 w-full sm:w-1/3">
-              <p className="text-sm font-semibold">Stop</p>
-              <p className="text-gray-500">{bookingData.stop}</p>
+          {/* Return Date */}
+          <div className="space-y-2">
+            <label className="flex items-center text-gray-300 text-sm font-medium">
+              <FaCalendarAlt className="mr-2 text-blue-400" />
+              Return date
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={`${bookingData.returnDate}, ${bookingData.returnTime}`}
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                readOnly
+              />
+              <FaClock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
           {/* Search Button */}
-          <button className="bg-black text-white p-4 rounded-lg ml-2 mr-3 mt-4 sm:mt-0 hover:bg-gray-800 transition">
-            <FaSearch size={18} />
-          </button>
+          <div className="space-y-2">
+            <label className="text-transparent text-sm">Search</label>
+            <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl">
+              <FaSearch />
+              <span>Search</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Car Image at Bottom */}
-      <div className="flex justify-center">
-        <Image
-          src={Image1}
-          alt="Car"
-          width={900}
-          height={300}
-          priority={true}
-          className="position relative -top-45"
-        />
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-700">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">500+</div>
+            <div className="text-gray-400 text-sm">Premium Cars</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">24/7</div>
+            <div className="text-gray-400 text-sm">Support</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">50+</div>
+            <div className="text-gray-400 text-sm">Locations</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">10K+</div>
+            <div className="text-gray-400 text-sm">Happy Clients</div>
+          </div>
+        </div>
       </div>
     </div>
   );
