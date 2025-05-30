@@ -58,7 +58,7 @@ const ThirdSection = () => {
   }, []);
 
   return (
-    <div className="p-10 bg-white text-center">
+    <div className="bg-gray-900/80 backdrop-blur-lg">
       <h1 className="text-3xl md:text-4xl font-extrabold mb-10 text-gray-900">
         WIDE RANGE OF <br /> VEHICLES
       </h1>

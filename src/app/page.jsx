@@ -12,6 +12,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
+    <div className="border-green-500">
+    
     <>
     <Carousel/>
     <Secondsection/>
@@ -21,5 +23,6 @@ export default function Home() {
     <Sixthsection/>
     <Footer/>
     </>
+    </div>
   );
 }
