@@ -1,5 +1,10 @@
-import React from 'react'
-import Image from 'next/image'
+'use client';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SixthSection = () => {
   const stories = [
@@ -42,47 +47,103 @@ const SixthSection = () => {
     { name: 'Nissan', path: '/logos/Nissan.png' }
   ];
 
+  const sectionRef = useRef(null);
+  const storyRefs = useRef([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      storyRefs.current.forEach((el, index) => {
+        gsap.fromTo(
+          el,
+          {
+            opacity: 0,
+            y: 50,
+            background: 'rgba(0,0,0,0)'
+          },
+          {
+            opacity: 1,
+            y: 0,
+            background: 'rgba(8, 28, 82, 0.7)',
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            },
+            onEnter: () => {
+              el.classList.add('dark-glass');
+            }
+          }
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Add this CSS class for the dark glass effect (or use Tailwind)
+  // .dark-glass {
+  //   background: rgba(8, 28, 82, 0.7);
+  //   backdrop-filter: blur(8px);
+  //   border-radius: 12px;
+  //   padding: 1rem;
+  // }
+
   return (
-    <div className='py-16 px-8 bg-white max-w-7xl mx-auto'>
+    <div ref={sectionRef} className='py-16 px-8 bg-white max-w-7xl mx-auto'>
       <h2 className='text-4xl font-bold text-center mb-12'>STORIES BEHIND THE WHEEL</h2>
-      
+
       <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-        {stories.map((story) => (
-          <div key={story.id} className='flex flex-col'>
+        {stories.map((story, index) => (
+          <div
+            key={story.id}
+            ref={el => storyRefs.current[index] = el}
+            className='flex flex-col story-card group dark-glass'
+            style={{
+              background: 'rgba(8, 28, 82, 0.7)',
+              backdropFilter: 'blur(8px)',
+              borderRadius: '12px',
+              padding: '1rem',
+              transition: 'all 0.3s ease',
+              color: 'white'
+            }}
+          >
             <div className='flex items-start mb-6'>
               <div className='mr-4'>
                 <span className='text-3xl font-bold block'>{story.date}</span>
-                <span className='text-sm text-gray-600 block'>{story.month} {story.year}</span>
+                <span className='text-sm text-gray-300 block'>{story.month} {story.year}</span>
               </div>
             </div>
-            
+
             <h3 className='text-xl font-bold uppercase mb-3'>{story.title}</h3>
-            <p className='text-gray-600 mb-4'>{story.description}</p>
-            
+            <p className='text-gray-300 mb-4'>{story.description}</p>
+
             <div className='mt-auto'>
-              <div className='h-64 w-full relative rounded-md overflow-hidden'>
-                <Image 
+              <div className='h-64 w-full relative rounded-md overflow-hidden group-hover:scale-105 transition-transform'>
+                <Image
                   src={story.image}
                   alt={story.title}
                   fill
                   style={{ objectFit: 'cover' }}
+                  className='group-hover:brightness-110 transition-all'
                 />
               </div>
             </div>
           </div>
         ))}
       </div>
-      
+
       <div className='mt-12 flex justify-center'>
         <button className='px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition'>
           See all Reviews
         </button>
       </div>
-      
+
       <div className='mt-16 flex flex-wrap justify-center gap-8'>
         {brands.map((brand) => (
           <div key={brand.name} className='w-20 h-20 opacity-70 hover:opacity-100 transition'>
-            <Image 
+            <Image
               src={brand.path}
               alt={brand.name}
               width={80}
@@ -95,4 +156,4 @@ const SixthSection = () => {
   )
 }
 
-export default SixthSection
+export default SixthSection;
