@@ -58,21 +58,16 @@ const SixthSection = () => {
           {
             opacity: 0,
             y: 50,
-            background: 'rgba(0,0,0,0)'
           },
           {
             opacity: 1,
             y: 0,
-            background: 'rgba(8, 28, 82, 0.7)',
             duration: 0.8,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
               start: 'top 80%',
               toggleActions: 'play none none reverse'
-            },
-            onEnter: () => {
-              el.classList.add('dark-glass');
             }
           }
         );
@@ -81,14 +76,6 @@ const SixthSection = () => {
 
     return () => ctx.revert();
   }, []);
-
-  // Add this CSS class for the dark glass effect (or use Tailwind)
-  // .dark-glass {
-  //   background: rgba(8, 28, 82, 0.7);
-  //   backdrop-filter: blur(8px);
-  //   border-radius: 12px;
-  //   padding: 1rem;
-  // }
 
   return (
     <div ref={sectionRef} className='py-16 px-8 bg-white max-w-7xl mx-auto'>
@@ -99,25 +86,17 @@ const SixthSection = () => {
           <div
             key={story.id}
             ref={el => storyRefs.current[index] = el}
-            className='flex flex-col story-card group dark-glass'
-            style={{
-              background: 'rgba(8, 28, 82, 0.7)',
-              backdropFilter: 'blur(8px)',
-              borderRadius: '12px',
-              padding: '1rem',
-              transition: 'all 0.3s ease',
-              color: 'white'
-            }}
+            className='flex flex-col story-card group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 rounded-lg'
           >
             <div className='flex items-start mb-6'>
               <div className='mr-4'>
                 <span className='text-3xl font-bold block'>{story.date}</span>
-                <span className='text-sm text-gray-300 block'>{story.month} {story.year}</span>
+                <span className='text-sm text-gray-600 block'>{story.month} {story.year}</span>
               </div>
             </div>
 
             <h3 className='text-xl font-bold uppercase mb-3'>{story.title}</h3>
-            <p className='text-gray-300 mb-4'>{story.description}</p>
+            <p className='text-gray-600 mb-4'>{story.description}</p>
 
             <div className='mt-auto'>
               <div className='h-64 w-full relative rounded-md overflow-hidden group-hover:scale-105 transition-transform'>
