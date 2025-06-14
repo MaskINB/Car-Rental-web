@@ -10,17 +10,17 @@ gsap.registerPlugin(ScrollTrigger);
 const vehicleCategories = [
   {
     title: 'CARS',
-    image: '/image/cars.jpeg',
+    image: '/image/Ecar.jpeg',
     description: 'Luxury sedans and sports cars',
   },
   {
     title: 'SUVS',
-    image: '/image/new.png',
+    image: '/image/Ecar.jpeg',
     description: 'Spacious and powerful SUVs',
   },
   {
     title: 'VANS',
-    image: '/image/Vans.jpeg',
+    image: '/image/Ecar.jpeg',
     description: 'Family and commercial vans',
   },
   {
@@ -35,18 +35,16 @@ const ThirdSection = () => {
   const titleRef = useRef(null);
 
   useEffect(() => {
-    // Kill previous triggers
     ScrollTrigger.getAll().forEach(t => t.kill());
 
-    // Fade in title
+    // Simple fade-in for title
     gsap.fromTo(
       titleRef.current,
-      { opacity: 0, y: 20 },
+      { opacity: 0 },
       {
         opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
+        duration: 1,
+        ease: 'power1.out',
         scrollTrigger: {
           trigger: titleRef.current,
           start: 'top 85%',
@@ -55,17 +53,15 @@ const ThirdSection = () => {
       }
     );
 
-    // Fade in cards with stagger
+    // Simple fade-in for cards without stagger
     const cards = containerRef.current.querySelectorAll('.vehicle-card');
     gsap.fromTo(
       cards,
-      { opacity: 0, y: 30 },
+      { opacity: 0 },
       {
         opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        stagger: 0.1,
+        duration: 1,
+        ease: 'power1.out',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 85%',
@@ -75,7 +71,7 @@ const ThirdSection = () => {
     );
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
