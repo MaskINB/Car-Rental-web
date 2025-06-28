@@ -25,7 +25,7 @@
   ],
   "booking": {
     "id": 1,
-    "location": "Los Angeles, USA",
+    "location": "Miami, USA",
     "pickupDate": "2025-07-24",
     "pickupTime": "01:02",
     "returnDate": "2025-07-31",
@@ -73,6 +73,40 @@
       "label": "Las Vegas, USA",
       "code": "LAS",
       "country": "United States"
+    }
+  ],
+  "featureCards": [
+    {
+      "id": 1,
+      "title": "Do more from home",
+      "description": "Price excludes tax, title, tags and $399 CarMax processing fee (not required by law). Price assumes that final purchase will be made in the State of Vehicle subject to prior sale.",
+      "badge": "Popular",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "title": "Test drives for real life",
+      "description": "Price excludes tax, title, tags and $399 CarMax processing made in the State of Vehicle subject to prior sale.",
+      "badge": "New",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": 3,
+      "title": "24/7 Customer Support",
+      "description": "Get help whenever you need it with our round-the-clock customer support team. We're here to assist you with any questions or concerns.",
+      "badge": "Premium",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "id": 4,
+      "title": "Flexible Payment Options",
+      "description": "Choose from multiple payment methods including credit cards, digital wallets, and financing options to suit your needs.",
+      "badge": null,
+      "isActive": true,
+      "order": 4
     }
   ]
 }
