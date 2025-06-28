@@ -22,5 +22,57 @@
       "id": 1,
       "image": "/image/Rcar.jpeg"
     }
+  ],
+  "booking": {
+    "id": 1,
+    "location": "Los Angeles, USA",
+    "pickupDate": "2025-07-24",
+    "pickupTime": "01:02",
+    "returnDate": "2025-07-31",
+    "returnTime": "18:00"
+  },
+  "locations": [
+    {
+      "id": 1,
+      "value": "Los Angeles, USA",
+      "label": "Los Angeles, USA",
+      "code": "LAX",
+      "country": "United States"
+    },
+    {
+      "id": 2,
+      "value": "New York, USA",
+      "label": "New York, USA",
+      "code": "NYC",
+      "country": "United States"
+    },
+    {
+      "id": 3,
+      "value": "Miami, USA",
+      "label": "Miami, USA",
+      "code": "MIA",
+      "country": "United States"
+    },
+    {
+      "id": 4,
+      "value": "Chicago, USA",
+      "label": "Chicago, USA",
+      "code": "CHI",
+      "country": "United States"
+    },
+    {
+      "id": 5,
+      "value": "San Francisco, USA",
+      "label": "San Francisco, USA",
+      "code": "SFO",
+      "country": "United States"
+    },
+    {
+      "id": 6,
+      "value": "Las Vegas, USA",
+      "label": "Las Vegas, USA",
+      "code": "LAS",
+      "country": "United States"
+    }
   ]
 }
