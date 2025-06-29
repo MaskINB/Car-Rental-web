@@ -9,21 +9,6 @@ gsap.registerPlugin(Draggable);
 
 const carData = [
   {
-<<<<<<< HEAD
-    title: 'CARS',
-    image: '/image/Ecar.jpeg',
-    description: 'Luxury sedans and sports cars',
-  },
-  {
-    title: 'SUVS',
-    image: '/image/Ecar.jpeg',
-    description: 'Spacious and powerful SUVs',
-  },
-  {
-    title: 'VANS',
-    image: '/image/Ecar.jpeg',
-    description: 'Family and commercial vans',
-=======
     id: 1,
     name: 'Lamborghini Urus',
     subtitle: 'SUPER SUV',
@@ -52,7 +37,6 @@ const carData = [
     },
     color: 'from-yellow-400 to-orange-600',
     bgGradient: 'from-yellow-900/20 to-orange-900/20'
->>>>>>> ceb3f7917da92133959016ca5f3caea8be227cf5
   },
   {
     id: 3,
@@ -155,23 +139,6 @@ const FifthSection = () => {
 
   // Custom cursor effect
   useEffect(() => {
-<<<<<<< HEAD
-    ScrollTrigger.getAll().forEach(t => t.kill());
-
-    // Simple fade-in for title
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1,
-        ease: 'power1.out',
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-=======
     const handleMouseMove = (e) => {
       setMousePos({ x: e.clientX, y: e.clientY });
       
@@ -182,26 +149,9 @@ const FifthSection = () => {
           duration: 0.1,
           ease: 'power2.out'
         });
->>>>>>> ceb3f7917da92133959016ca5f3caea8be227cf5
       }
     };
 
-<<<<<<< HEAD
-    // Simple fade-in for cards without stagger
-    const cards = containerRef.current.querySelectorAll('.vehicle-card');
-    gsap.fromTo(
-      cards,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1,
-        ease: 'power1.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-=======
     const handleMouseEnter = () => {
       if (cursorRef.current) {
         gsap.to(cursorRef.current, {
@@ -209,7 +159,6 @@ const FifthSection = () => {
           opacity: 1,
           duration: 0.3
         });
->>>>>>> ceb3f7917da92133959016ca5f3caea8be227cf5
       }
     };
 
@@ -228,13 +177,9 @@ const FifthSection = () => {
     containerRef.current?.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-<<<<<<< HEAD
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-=======
       document.removeEventListener('mousemove', handleMouseMove);
       containerRef.current?.removeEventListener('mouseenter', handleMouseEnter);
       containerRef.current?.removeEventListener('mouseleave', handleMouseLeave);
->>>>>>> ceb3f7917da92133959016ca5f3caea8be227cf5
     };
   }, []);
 
@@ -482,5 +427,4 @@ const FifthSection = () => {
 };
 
 export default FifthSection;
-
 
