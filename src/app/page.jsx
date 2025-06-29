@@ -15,11 +15,6 @@ export default function Home() {
     <>
     <Carousel/>
     <Secondsection/>
-    <Thirdsection/>
-    <ForthSection/>
-    <Fifthsection/>
-    <Sixthsection/>
-    <Footer/>
     </>
   );
 }
