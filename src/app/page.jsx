@@ -1,4 +1,5 @@
 import Image from "next/image";
+import "./globals.css";
 import Carousel from "./components/carousel/carousel";
 import Secondsection from "./components/Secondsection/secondsection"
 import Thirdsection from "./components/Thirdsection/thirdsection";
@@ -15,6 +16,8 @@ export default function Home() {
     <>
     <Carousel/>
     <Secondsection/>
+    <Thirdsection/>
+    <ForthSection/>
     </>
   );
 }

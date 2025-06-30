@@ -25,6 +25,7 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  background:#0e1424;
 }
 
 /* Optional: Ensure smooth scrolling */
@@ -35,6 +36,31 @@ html {
 html {
   scroll-behavior: smooth;
 }
+
+/* Reset any conflicting styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove default margins and padding */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+ 
+  border-radius: 4px;
+}
+
+/* Ensure no fixed positioning issues */
+.section-animate {
+  position: relative;
+  z-index: 1;
+}
+
+
 
 
   
