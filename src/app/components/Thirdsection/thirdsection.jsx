@@ -194,7 +194,7 @@ const FifthSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-16 relative overflow-hidden"
+      className="py-25 relative overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0e1424 0%, #1a2332 100%)' }}
     >
       {/* Background elements */}
@@ -227,7 +227,7 @@ const FifthSection = () => {
         {/* Enhanced Draggable Cards Container */}
         <div 
           ref={cardsContainerRef}
-          className={`overflow-x-auto scrollbar-hide pb-4 ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          className={`overflow-x-auto scrollbar-hide pb-8 pt-8 g ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -243,7 +243,7 @@ const FifthSection = () => {
           onTouchEnd={handleTouchEnd}
         >
           {/* Increased spacing between cards */}
-          <div className="flex space-x-10 w-max">
+          <div className="flex space-x-50 w-max">
             {data.map((car, index) => (
               <div
                 key={car.id}
@@ -255,7 +255,7 @@ const FifthSection = () => {
                 onClick={(e) => handleCardClick(car, e)}
               >
                 {/* Car Card */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden h-[350px]">
+                <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden h-[350px] pb-20">
                   <div className="grid md:grid-cols-5 gap-0 h-full">
                     
                     {/* Image Side */}
@@ -361,7 +361,7 @@ const FifthSection = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="text-center mt-6">
+        <div className="text-center -mt-2">
           <div className="text-white/60 text-sm">
             Showing {data.length} premium vehicles
           </div>
