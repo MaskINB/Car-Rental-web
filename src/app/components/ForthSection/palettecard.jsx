@@ -1,66 +1,85 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import { gsap } from 'gsap';
 
-const COLORS = [
-  { hex: '#0E3746', label: '0E3746' },
-  { hex: '#EAE8DC', label: 'EAE8DC' },
-  { hex: '#F4F2EC', label: 'F4F2EC' },
-  { hex: '#BE2623', label: 'BE2623' }
+const CITIES = [
+  { img: '/image/pcar.jpeg', name: 'Paris' },
+  { img: '/image/new.png', name: 'London' },
+  { img: '/image/porsche.jpeg', name: 'Tokyo' },
+  { img: '/image/Vans.jpeg', name: 'New York' }
 ];
 
-const PaletteCard = () => (
-  <div className="w-[320px] h-[220px] bg-white rounded-xl shadow-[1px_1px_20px_#c7c7c7] flex items-end justify-center overflow-hidden relative mx-auto">
-    <div className="w-full h-[180px] flex items-end justify-center relative">
-      {/* Top Circle */}
-      <div className="w-[50px] h-[50px] bg-white rounded-full shadow-[1px_1px_8px_#c7c7c7] flex items-center justify-center absolute -top-[60px] left-1/2 -translate-x-1/2 z-20">
-        <PaletteIcon />
-      </div>
+export default function PaletteCard() {
+  const swatchRefs = useRef([]);
+  const iconRefs = useRef([]);
 
-      {/* Color Swatches */}
-      {COLORS.map((color, idx) => (
+  const handleEnter = (i) => {
+    gsap.to(swatchRefs.current[i], { width: 280, duration: 0.5, ease: 'power2.out' });
+    gsap.fromTo(
+      iconRefs.current[i],
+      { scale: 0, rotate: 0 },
+      { scale: 1, rotate: 360, duration: 0.6, ease: 'back.out(1.7)' }
+    );
+  };
+
+  const handleLeave = (i) => {
+    gsap.to(swatchRefs.current[i], { width: 200, duration: 0.5, ease: 'power2.inOut' });
+    gsap.to(iconRefs.current[i], { scale: 0, rotate: 0, duration: 0.6, ease: 'power2.in' });
+  };
+
+  return (
+    <div className="relative w-[900px] h-[320px] rounded-xl shadow-lg overflow-hidden flex">
+      {CITIES.map((city, idx) => (
         <div
-          key={color.hex}
-          className={`group relative flex flex-col items-end justify-end cursor-pointer 
-          w-[80px] h-full transition-all duration-300 
-          ${idx === 0 ? 'rounded-bl-xl' : ''} ${idx === COLORS.length - 1 ? 'rounded-br-xl' : ''}`}
-          style={{ background: color.hex }}
+          key={idx}
+          ref={el => swatchRefs.current[idx] = el}
+          onMouseEnter={() => handleEnter(idx)}
+          onMouseLeave={() => handleLeave(idx)}
+          className={`
+            relative h-full cursor-pointer flex items-end transition-all
+            ${idx === 0 ? 'rounded-bl-xl' : ''} ${idx === CITIES.length - 1 ? 'rounded-br-xl' : ''}
+          `}
+          style={{
+            width: 200,
+            backgroundImage: `url(${city.img})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         >
-          {/* Hover area (invisible, just for position) */}
-          <div className="absolute bottom-0 left-0 w-[80px] h-[150px] z-10" />
-          
-          {/* Label */}
-          <div className="w-full h-[30px] bg-white text-center text-xs font-semibold leading-[30px] absolute bottom-0 left-0 z-20">
-            {color.label}
-          </div>
-
-          {/* Popup icon on hover */}
+          {/* Hover tire icon */}
           <div
-            className={`absolute top-[-60px] left-[135px] w-[50px] h-[50px] rounded-full shadow-[1px_1px_8px_#c7c7c7] hidden group-hover:flex items-center justify-center z-30
-              transition-transform duration-500 transform group-hover:rotate-0 group-hover:scale-100`}
-            style={{ background: color.hex, color: idx === 1 || idx === 2 ? '#0e3746' : '#fff' }}
+            ref={el => iconRefs.current[idx] = el}
+            className="absolute top-4 left-1/2 -translate-x-1/2 w-[60px] h-[60px] rounded-full shadow bg-white flex items-center justify-center z-20"
           >
-            <PaletteIcon />
+            <TireIcon />
           </div>
 
-          {/* "Hover me" text on first swatch */}
-          {idx === 0 && (
-            <span className="absolute bottom-[40px] left-[10px] text-white text-sm font-medium transform -rotate-90 pointer-events-none z-20">
-              Hover me
-            </span>
-          )}
+          {/* City name */}
+          <div className="absolute bottom-0 w-full bg-black/60 text-white text-center text-[14px] font-semibold py-2">
+            {city.name}
+          </div>
         </div>
       ))}
     </div>
-  </div>
-);
-
-function PaletteIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} fill="currentColor" viewBox="0 0 16 16">
-      <path d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-      <path d="M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8zm-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7z" />
-    </svg>
   );
 }
 
-export default PaletteCard;
+// 🛞 Flat tire icon SVG
+function TireIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
+      <circle cx="32" cy="32" r="30" fill="#333" />
+      <circle cx="32" cy="32" r="22" fill="#555" />
+      <circle cx="32" cy="32" r="8" fill="#222" />
+      <path fill="none" stroke="#fff" strokeWidth="2" d="
+        M32 10 L32 0 
+        M32 64 L32 54 
+        M10 32 L0 32 
+        M64 32 L54 32 
+        M50 50 L58 58 
+        M14 14 L6 6 
+        M50 14 L58 6 
+        M14 50 L6 58" />
+    </svg>
+  );
+}
