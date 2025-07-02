@@ -1,9 +1,12 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+const Car3DViewer = dynamic(() => import('./Car3DViewer'), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,7 +113,7 @@ const FifthSection = () => {
   // Reserve button click handler for routing
   const handleReserveClick = (car, e) => {
     e.stopPropagation();
-    router.push(`/cars/${car.id}/reserve`);
+    router.push(`/car`);
   };
 
   // Close popup handler
@@ -153,39 +156,30 @@ const FifthSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-20 relative overflow-hidden"
+      className="py-22 relative overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0e1424 0%, #1a2332 100%)' }}
     >
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-0/4 left-0/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4">
+      <div className="relative z-10 w-full max-w-7xl mx-auto 1px-2 sm:px-4">
         {/* Section Title */}
         <div ref={titleRef} className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Premium Car Collection
           </h2>
           <p className="text-gray-300 max-w-xl mx-auto text-sm sm:text-base">
             Discover luxury vehicles with stunning performance
           </p>
-          <div className="text-gray-400 text-xs sm:text-sm mt-4 flex items-center justify-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-            </svg>
-            <span>Drag to explore more cars</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </div>
         </div>
 
         {/* Draggable Cards Container */}
         <div 
           ref={cardsContainerRef}
-          className={`overflow-x-auto scrollbar-hide pb-8 pt-4 ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          className={`overflow-x-auto scrollbar-hide pb-5 pt-4 ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -200,7 +194,7 @@ const FifthSection = () => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="flex space-x-6 w-max">
+          <div className="flex space-x-15 w-max">
             {data.map((car, index) => (
               <div
                 key={car.id}
@@ -216,9 +210,9 @@ const FifthSection = () => {
                 `}
                 onClick={(e) => handleCardClick(car, e)}
               >
-                {/* Card Container - FLEX COLUMN, FULL HEIGHT */}
+                {/* Card Container */}
                 <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden flex flex-col h-full">
-                  {/* Image Section - TALLER ASPECT RATIO */}
+                  {/* Image Section */}
                   <div className="relative w-full aspect-[16/7] md:aspect-[16/6] lg:aspect-[16/5] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-xl">
                     <Image
                       src={car.image}
@@ -235,7 +229,7 @@ const FifthSection = () => {
                       </span>
                     </div>
                   </div>
-                  {/* Content Section - FLEX COLUMN, FLEX-1 */}
+                  {/* Content Section */}
                   <div className="flex-1 flex flex-col p-4">
                     <div>
                       <div className="flex justify-between items-start mb-2">
@@ -292,7 +286,7 @@ const FifthSection = () => {
                         </div>
                       </div>
                     </div>
-                    {/* Button Row - ALWAYS AT THE BOTTOM */}
+                    {/* Button Row */}
                     <div className="flex space-x-2 mt-auto">
                       <button 
                         onClick={(e) => handleReserveClick(car, e)}
@@ -322,7 +316,7 @@ const FifthSection = () => {
       {/* Car Details Popup */}
       {selectedCardId && selectedCar && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 "
           onClick={handlePopupBackdropClick}
         >
           <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in duration-300">
@@ -336,18 +330,17 @@ const FifthSection = () => {
               </svg>
             </button>
             {/* Popup Content */}
-            <div className="p-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Car Image */}
-                <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8 flex items-center justify-center">
-                  <div className="relative w-full h-64">
-                    <Image
-                      src={selectedCar.image}
-                      alt={selectedCar.name}
-                      fill
-                      className="object-cover object-center"
-                    />
-                  </div>
+            <div className="p-6">
+              <div className="grid md:grid-cols-2 gap-10">
+                {/* 3D Car Viewer */}
+                <div className="flex flex-col items-center justify-center">
+                  {selectedCar.model3d ? (
+                    <Car3DViewer modelUrl={selectedCar.model3d} />
+                  ) : (
+                    <div className="relative w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center">
+                      <span className="text-gray-400">3D Model Not Available</span>
+                    </div>
+                  )}
                 </div>
                 {/* Car Details */}
                 <div>

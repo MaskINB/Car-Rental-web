@@ -115,6 +115,7 @@
       "name": "BMW X5 xDrive40i",
       "category": "Luxury SUV",
       "image": "/image/pcar.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Buggy/glTF-Binary/Buggy.glb",
       "price": 89,
       "originalPrice": 109,
       "rating": 4.8,
@@ -135,6 +136,7 @@
       "name": "Mercedes-Benz GLC 300",
       "category": "Premium SUV",
       "image": "/image/WhatsApp Image 2025-03-29 at 8.18.07 PM (1).jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Buggy/glTF-Binary/Buggy.glb",
       "price": 79,
       "originalPrice": 95,
       "rating": 4.9,
@@ -155,6 +157,7 @@
       "name": "Tesla Model Y",
       "category": "Electric SUV",
       "image": "/image/porsche.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Box/glTF-Binary/Box.glb",
       "price": 85,
       "originalPrice": 105,
       "rating": 4.6,
@@ -169,87 +172,90 @@
       },
       "availability": "Available Now",
       "location": "Tech District"
-    },{
-    "id": 4,
-    "name": "BMW i4",
-    "category": "Electric Sedan",
-    "image": "/image/pcar.jpeg",
-    "price": 79,
-    "originalPrice": 99,
-    "rating": 4.5,
-    "reviews": 178,
-    "description": "Experience pure electric driving with the BMW i4. Sporty design meets advanced technology and dynamic performance.",
-    "features": ["Adaptive Cruise Control", "Harman Kardon Audio", "Heated Seats", "Wireless Charging"],
-    "specs": {
-      "seats": "5 Passengers",
-      "transmission": "Single-Speed Automatic",
-      "fuel": "Electric 301mi",
-      "mpg": "109 MPGe"
     },
-    "availability": "Available Now",
-    "location": "City Auto Hub"
-  },{
-  "id": 5,
-  "name": "Audi Q4 e-tron",
-  "category": "Electric SUV",
-  "image": "/image/WhatsApp Image 2025-03-29 at 8.18.07 PM.jpeg",
-  "price": 82,
-  "originalPrice": 102,
-  "rating": 4.4,
-  "reviews": 156,
-  "description": "Bold, compact, and fully electric — the Audi Q4 e-tron offers advanced technology and everyday practicality.",
-  "features": ["Virtual Cockpit", "Matrix LED Headlights", "Panoramic Sunroof", "Lane Assist"],
-  "specs": {
-    "seats": "5 Passengers",
-    "transmission": "Single-Speed Automatic",
-    "fuel": "Electric 265mi",
-    "mpg": "100 MPGe"
-  },
-  "availability": "In Stock",
-  "location": "Downtown Motors"
-},{
-  "id": 6,
-  "name": "Ford Mustang Mach-E",
-  "category": "Electric Crossover",
-  "image": "/image/pcar.jpeg",
-  "price": 77,
-  "originalPrice": 95,
-  "rating": 4.3,
-  "reviews": 190,
-  "description": "The iconic Mustang, reimagined for the electric age. Sporty, versatile, and ready for adventure.",
-  "features": ["Hands-Free Liftgate", "SYNC 4A System", "B&O Sound System", "Wireless Apple CarPlay"],
-  "specs": {
-    "seats": "5 Passengers",
-    "transmission": "Single-Speed Automatic",
-    "fuel": "Electric 300mi",
-    "mpg": "103 MPGe"
-  },
-  "availability": "Available Now",
-  "location": "Urban Auto Center"
-},{
-  "id": 7,
-  "name": "Mercedes-Benz EQB",
-  "category": "Electric Compact SUV",
-  "image": "/image/pcar.jpeg",
-  "price": 84,
-  "originalPrice": 101,
-  "rating": 4.5,
-  "reviews": 145,
-  "description": "Luxury meets utility in the Mercedes-Benz EQB. Spacious, elegant, and fully electric for modern drivers.",
-  "features": ["MBUX Multimedia", "Third Row Seating", "Ambient Lighting", "Active Brake Assist"],
-  "specs": {
-    "seats": "7 Passengers",
-    "transmission": "Single-Speed Automatic",
-    "fuel": "Electric 243mi",
-    "mpg": "98 MPGe"
-  },
-  "availability": "Available Now",
-  "location": "Luxury Auto Plaza"
-}
-
-
-
-
+    {
+      "id": 4,
+      "name": "BMW i4",
+      "category": "Electric Sedan",
+      "image": "/image/pcar.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/VC/glTF-Binary/VC.glb",
+      "price": 79,
+      "originalPrice": 99,
+      "rating": 4.5,
+      "reviews": 178,
+      "description": "Experience pure electric driving with the BMW i4. Sporty design meets advanced technology and dynamic performance.",
+      "features": ["Adaptive Cruise Control", "Harman Kardon Audio", "Heated Seats", "Wireless Charging"],
+      "specs": {
+        "seats": "5 Passengers",
+        "transmission": "Single-Speed Automatic",
+        "fuel": "Electric 301mi",
+        "mpg": "109 MPGe"
+      },
+      "availability": "Available Now",
+      "location": "City Auto Hub"
+    },
+    {
+      "id": 5,
+      "name": "Audi Q4 e-tron",
+      "category": "Electric SUV",
+      "image": "/image/WhatsApp Image 2025-03-29 at 8.18.07 PM.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb",
+      "price": 82,
+      "originalPrice": 102,
+      "rating": 4.4,
+      "reviews": 156,
+      "description": "Bold, compact, and fully electric — the Audi Q4 e-tron offers advanced technology and everyday practicality.",
+      "features": ["Virtual Cockpit", "Matrix LED Headlights", "Panoramic Sunroof", "Lane Assist"],
+      "specs": {
+        "seats": "5 Passengers",
+        "transmission": "Single-Speed Automatic",
+        "fuel": "Electric 265mi",
+        "mpg": "100 MPGe"
+      },
+      "availability": "In Stock",
+      "location": "Downtown Motors"
+    },
+    {
+      "id": 6,
+      "name": "Ford Mustang Mach-E",
+      "category": "Electric Crossover",
+      "image": "/image/pcar.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb",
+      "price": 77,
+      "originalPrice": 95,
+      "rating": 4.3,
+      "reviews": 190,
+      "description": "The iconic Mustang, reimagined for the electric age. Sporty, versatile, and ready for adventure.",
+      "features": ["Hands-Free Liftgate", "SYNC 4A System", "B&O Sound System", "Wireless Apple CarPlay"],
+      "specs": {
+        "seats": "5 Passengers",
+        "transmission": "Single-Speed Automatic",
+        "fuel": "Electric 300mi",
+        "mpg": "103 MPGe"
+      },
+      "availability": "Available Now",
+      "location": "Urban Auto Center"
+    },
+    {
+      "id": 7,
+      "name": "Mercedes-Benz EQB",
+      "category": "Electric Compact SUV",
+      "image": "/image/pcar.jpeg",
+      "model3d": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/ReciprocatingSaw/glTF-Binary/ReciprocatingSaw.glb",
+      "price": 84,
+      "originalPrice": 101,
+      "rating": 4.5,
+      "reviews": 145,
+      "description": "Luxury meets utility in the Mercedes-Benz EQB. Spacious, elegant, and fully electric for modern drivers.",
+      "features": ["MBUX Multimedia", "Third Row Seating", "Ambient Lighting", "Active Brake Assist"],
+      "specs": {
+        "seats": "7 Passengers",
+        "transmission": "Single-Speed Automatic",
+        "fuel": "Electric 243mi",
+        "mpg": "98 MPGe"
+      },
+      "availability": "Available Now",
+      "location": "Luxury Auto Plaza"
+    }
   ]
-
 }

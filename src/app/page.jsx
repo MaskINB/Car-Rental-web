@@ -18,6 +18,7 @@ export default function Home() {
     <Secondsection/>
     <Thirdsection/>
     <ForthSection/>
+    <Footer/>
     </>
   );
 }
