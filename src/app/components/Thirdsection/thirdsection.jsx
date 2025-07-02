@@ -206,8 +206,8 @@ const FifthSection = () => {
                 key={car.id}
                 className={`
                   flex-shrink-0
-                  w-[90vw] sm:w-[340px] md:w-[370px] lg:w-[400px]
-                  h-[420px] sm:h-[370px]
+                  w-[90vw] sm:w-[380px] md:w-[420px] lg:w-[470px]
+                  h-[520px] sm:h-[440px]
                   transition-all duration-300
                   ${selectedCardId 
                     ? (car.id === selectedCardId ? 'z-20 scale-105' : 'opacity-30 pointer-events-none') 
@@ -216,15 +216,15 @@ const FifthSection = () => {
                 `}
                 onClick={(e) => handleCardClick(car, e)}
               >
-                {/* Car Card */}
+                {/* Card Container - FLEX COLUMN, FULL HEIGHT */}
                 <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden flex flex-col h-full">
-                  {/* Image Side */}
-                  <div className="relative w-full aspect-[16/7] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                  {/* Image Section - TALLER ASPECT RATIO */}
+                  <div className="relative w-full aspect-[16/7] md:aspect-[16/6] lg:aspect-[16/5] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-xl">
                     <Image
                       src={car.image}
                       alt={car.name}
                       fill
-                      className="object-contain pointer-events-none"
+                      className="object-cover object-center pointer-events-none"
                       priority={index === 0}
                       draggable={false}
                     />
@@ -235,8 +235,8 @@ const FifthSection = () => {
                       </span>
                     </div>
                   </div>
-                  {/* Content Side */}
-                  <div className="flex-1 flex flex-col justify-between p-4">
+                  {/* Content Section - FLEX COLUMN, FLEX-1 */}
+                  <div className="flex-1 flex flex-col p-4">
                     <div>
                       <div className="flex justify-between items-start mb-2">
                         <div>
@@ -292,15 +292,15 @@ const FifthSection = () => {
                         </div>
                       </div>
                     </div>
-                    {/* Action Buttons */}
-                    <div className="flex space-x-2 mt-2">
+                    {/* Button Row - ALWAYS AT THE BOTTOM */}
+                    <div className="flex space-x-2 mt-auto">
                       <button 
                         onClick={(e) => handleReserveClick(car, e)}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105"
+                        className="flex-1 bg-blue-600 text-white py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-all"
                       >
                         Reserve Now
                       </button>
-                      <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-gray-50 transition-all transform hover:scale-105">
+                      <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-gray-50 transition-all">
                         Details
                       </button>
                     </div>
@@ -345,7 +345,7 @@ const FifthSection = () => {
                       src={selectedCar.image}
                       alt={selectedCar.name}
                       fill
-                      className="object-contain"
+                      className="object-cover object-center"
                     />
                   </div>
                 </div>
