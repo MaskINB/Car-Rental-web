@@ -14,7 +14,7 @@ const FifthSection = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, scrollLeft: 0 });
   const [selectedCardId, setSelectedCardId] = useState(null);
-  
+
   const router = useRouter();
   const sectionRef = useRef(null);
   const cardsContainerRef = useRef(null);
@@ -26,22 +26,16 @@ const FifthSection = () => {
       try {
         setLoading(true);
         const response = await fetch('http://localhost:4000/carcard');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const jsonData = await response.json();
         setData(jsonData);
         setError(null);
       } catch (err) {
-        console.error('Error fetching car data:', err);
         setError('Failed to load car data. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
-
     fetchCarData();
   }, []);
 
@@ -55,84 +49,55 @@ const FifthSection = () => {
           toggleActions: 'play none none reverse',
         },
       });
-
-      tl.fromTo(titleRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-      );
-
-      tl.fromTo(cardsContainerRef.current,
-        { opacity: 0, y: 60 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-        '-=0.4'
-      );
+      tl.fromTo(titleRef.current, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+      tl.fromTo(cardsContainerRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4');
     }
   }, [data, loading]);
 
-  // Enhanced mouse drag handlers with smooth animation
+  // Drag handlers
   const handleMouseDown = (e) => {
     if (!cardsContainerRef.current) return;
-    
     setIsDragging(true);
     setDragStart({
       x: e.pageX - cardsContainerRef.current.offsetLeft,
-      scrollLeft: cardsContainerRef.current.scrollLeft
+      scrollLeft: cardsContainerRef.current.scrollLeft,
     });
-    
     e.preventDefault();
   };
-
   const handleMouseMove = (e) => {
     if (!isDragging || !cardsContainerRef.current) return;
-    
     e.preventDefault();
     const x = e.pageX - cardsContainerRef.current.offsetLeft;
     const walk = (x - dragStart.x) * 2;
-    
-    // Use requestAnimationFrame for smooth scrolling
     window.requestAnimationFrame(() => {
       if (cardsContainerRef.current) {
         cardsContainerRef.current.scrollLeft = dragStart.scrollLeft - walk;
       }
     });
   };
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  // Enhanced touch handlers with smooth animation
+  // Touch handlers
   const handleTouchStart = (e) => {
     if (!cardsContainerRef.current) return;
-    
     setIsDragging(true);
     setDragStart({
       x: e.touches[0].pageX - cardsContainerRef.current.offsetLeft,
-      scrollLeft: cardsContainerRef.current.scrollLeft
+      scrollLeft: cardsContainerRef.current.scrollLeft,
     });
   };
-
   const handleTouchMove = (e) => {
     if (!isDragging || !cardsContainerRef.current) return;
-    
     const x = e.touches[0].pageX - cardsContainerRef.current.offsetLeft;
     const walk = (x - dragStart.x) * 2;
-    
-    // Use requestAnimationFrame for smooth scrolling
     window.requestAnimationFrame(() => {
       if (cardsContainerRef.current) {
         cardsContainerRef.current.scrollLeft = dragStart.scrollLeft - walk;
       }
     });
   };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
+  const handleTouchEnd = () => setIsDragging(false);
 
   // Card click handler for popup (only if not dragging)
   const handleCardClick = (car, e) => {
@@ -149,15 +114,9 @@ const FifthSection = () => {
   };
 
   // Close popup handler
-  const closePopup = () => {
-    setSelectedCardId(null);
-  };
-
-  // Close popup on outside click
+  const closePopup = () => setSelectedCardId(null);
   const handlePopupBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closePopup();
-    }
+    if (e.target === e.currentTarget) closePopup();
   };
 
   // Loading state
@@ -194,26 +153,25 @@ const FifthSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-25 relative overflow-hidden"
+      className="py-20 relative overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0e1424 0%, #1a2332 100%)' }}
     >
       {/* Background elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4">
-        
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4">
         {/* Section Title */}
         <div ref={titleRef} className="text-center mb-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Premium Car Collection
           </h2>
-          <p className="text-gray-300 max-w-xl mx-auto">
+          <p className="text-gray-300 max-w-xl mx-auto text-sm sm:text-base">
             Discover luxury vehicles with stunning performance
           </p>
-          <div className="text-gray-400 text-sm mt-4 flex items-center justify-center gap-2">
+          <div className="text-gray-400 text-xs sm:text-sm mt-4 flex items-center justify-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
             </svg>
@@ -224,10 +182,10 @@ const FifthSection = () => {
           </div>
         </div>
 
-        {/* Enhanced Draggable Cards Container */}
+        {/* Draggable Cards Container */}
         <div 
           ref={cardsContainerRef}
-          className={`overflow-x-auto scrollbar-hide pb-8 pt-8 g ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          className={`overflow-x-auto scrollbar-hide pb-8 pt-4 ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -242,116 +200,109 @@ const FifthSection = () => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Increased spacing between cards */}
-          <div className="flex space-x-50 w-max">
+          <div className="flex space-x-6 w-max">
             {data.map((car, index) => (
               <div
                 key={car.id}
-                className={`flex-shrink-0 w-[500px] transition-all duration-300 ${
-                  selectedCardId 
+                className={`
+                  flex-shrink-0
+                  w-[90vw] sm:w-[340px] md:w-[370px] lg:w-[400px]
+                  h-[420px] sm:h-[370px]
+                  transition-all duration-300
+                  ${selectedCardId 
                     ? (car.id === selectedCardId ? 'z-20 scale-105' : 'opacity-30 pointer-events-none') 
                     : (!isDragging ? 'hover:scale-105 cursor-pointer' : 'cursor-grabbing')
-                }`}
+                  }
+                `}
                 onClick={(e) => handleCardClick(car, e)}
               >
                 {/* Car Card */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden h-[350px] pb-20">
-                  <div className="grid md:grid-cols-5 gap-0 h-full">
-                    
-                    {/* Image Side */}
-                    <div className="md:col-span-2 relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
-                      <div className="relative w-full h-32">
-                        <Image
-                          src={car.image}
-                          alt={car.name}
-                          fill
-                          className="object-contain pointer-events-none"
-                          priority={index === 0}
-                          draggable={false}
-                        />
+                <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden flex flex-col h-full">
+                  {/* Image Side */}
+                  <div className="relative w-full aspect-[16/7] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                    <Image
+                      src={car.image}
+                      alt={car.name}
+                      fill
+                      className="object-contain pointer-events-none"
+                      priority={index === 0}
+                      draggable={false}
+                    />
+                    {/* Availability Badge */}
+                    <div className="absolute top-2 left-2">
+                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        {car.availability}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Content Side */}
+                  <div className="flex-1 flex flex-col justify-between p-4">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <span className="text-blue-600 text-xs font-semibold uppercase">{car.category}</span>
+                          <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{car.name}</h3>
+                          <div className="flex items-center mb-1">
+                            <div className="flex text-yellow-400 mr-2">
+                              {[...Array(5)].map((_, i) => (
+                                <svg key={i} className="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                              ))}
+                            </div>
+                            <span className="text-gray-600 text-xs">{car.rating} ({car.reviews})</span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-gray-400 text-xs line-through">${car.originalPrice}</div>
+                          <div className="text-lg font-bold text-gray-900">${car.price}</div>
+                          <div className="text-gray-600 text-xs">per day</div>
+                        </div>
                       </div>
-                      
-                      {/* Availability Badge */}
-                      <div className="absolute top-2 left-2">
-                        <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                          {car.availability}
-                        </span>
+                      <p className="text-gray-600 mb-2 text-xs sm:text-sm line-clamp-2">
+                        {car.description}
+                      </p>
+                      {/* Specs */}
+                      <div className="grid grid-cols-4 gap-2 mb-2">
+                        <div className="bg-blue-50 rounded p-1 text-center">
+                          <div className="text-blue-600 text-[10px] font-semibold">SEATS</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.seats}</div>
+                        </div>
+                        <div className="bg-green-50 rounded p-1 text-center">
+                          <div className="text-green-600 text-[10px] font-semibold">MPG</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.mpg}</div>
+                        </div>
+                        <div className="bg-purple-50 rounded p-1 text-center">
+                          <div className="text-purple-600 text-[10px] font-semibold">ENGINE</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.engine || 'V6'}</div>
+                        </div>
+                        <div className="bg-orange-50 rounded p-1 text-center">
+                          <div className="text-orange-600 text-[10px] font-semibold">YEAR</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.year || '2024'}</div>
+                        </div>
+                      </div>
+                      {/* Features */}
+                      <div className="mb-2">
+                        <div className="flex flex-wrap gap-1">
+                          {car.features.slice(0, 3).map((feature, idx) => (
+                            <span key={idx} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-full text-xs">
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-
-                    {/* Content Side */}
-                    <div className="md:col-span-3 p-4 flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-start mb-3">
-                          <div>
-                            <span className="text-blue-600 text-xs font-semibold uppercase">{car.category}</span>
-                            <h3 className="text-lg font-bold text-gray-900 mb-1">{car.name}</h3>
-                            <div className="flex items-center mb-2">
-                              <div className="flex text-yellow-400 mr-2">
-                                {[...Array(5)].map((_, i) => (
-                                  <svg key={i} className="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                                  </svg>
-                                ))}
-                              </div>
-                              <span className="text-gray-600 text-xs">{car.rating} ({car.reviews})</span>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-gray-400 text-xs line-through">${car.originalPrice}</div>
-                            <div className="text-xl font-bold text-gray-900">${car.price}</div>
-                            <div className="text-gray-600 text-xs">per day</div>
-                          </div>
-                        </div>
-
-                        <p className="text-gray-600 mb-4 text-sm line-clamp-2">
-                          {car.description}
-                        </p>
-
-                        {/* Specs */}
-                        <div className="grid grid-cols-4 gap-2 mb-4">
-                          <div className="bg-blue-50 rounded p-2 text-center">
-                            <div className="text-blue-600 text-xs font-semibold">SEATS</div>
-                            <div className="text-gray-900 text-sm font-bold">{car.specs.seats}</div>
-                          </div>
-                          <div className="bg-green-50 rounded p-2 text-center">
-                            <div className="text-green-600 text-xs font-semibold">MPG</div>
-                            <div className="text-gray-900 text-sm font-bold">{car.specs.mpg}</div>
-                          </div>
-                          <div className="bg-purple-50 rounded p-2 text-center">
-                            <div className="text-purple-600 text-xs font-semibold">ENGINE</div>
-                            <div className="text-gray-900 text-xs font-bold">{car.specs.engine || 'V6'}</div>
-                          </div>
-                          <div className="bg-orange-50 rounded p-2 text-center">
-                            <div className="text-orange-600 text-xs font-semibold">YEAR</div>
-                            <div className="text-gray-900 text-sm font-bold">{car.specs.year || '2024'}</div>
-                          </div>
-                        </div>
-
-                        {/* Features */}
-                        <div className="mb-4">
-                          <div className="flex flex-wrap gap-1">
-                            {car.features.slice(0, 3).map((feature, idx) => (
-                              <span key={idx} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-full text-xs">
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons - Only Reserve button routes */}
-                      <div className="flex space-x-2">
-                        <button 
-                          onClick={(e) => handleReserveClick(car, e)}
-                          className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105"
-                        >
-                          Reserve Now
-                        </button>
-                        <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all transform hover:scale-105">
-                          Details
-                        </button>
-                      </div>
+                    {/* Action Buttons */}
+                    <div className="flex space-x-2 mt-2">
+                      <button 
+                        onClick={(e) => handleReserveClick(car, e)}
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105"
+                      >
+                        Reserve Now
+                      </button>
+                      <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-gray-50 transition-all transform hover:scale-105">
+                        Details
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -384,11 +335,9 @@ const FifthSection = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-
             {/* Popup Content */}
             <div className="p-8">
               <div className="grid md:grid-cols-2 gap-8">
-                
                 {/* Car Image */}
                 <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8 flex items-center justify-center">
                   <div className="relative w-full h-64">
@@ -400,7 +349,6 @@ const FifthSection = () => {
                     />
                   </div>
                 </div>
-
                 {/* Car Details */}
                 <div>
                   <div className="mb-6">
@@ -422,11 +370,9 @@ const FifthSection = () => {
                       <div className="text-gray-600">per day</div>
                     </div>
                   </div>
-
                   <p className="text-gray-600 mb-6 text-base leading-relaxed">
                     {selectedCar.description}
                   </p>
-
                   {/* Enhanced Specs */}
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-blue-50 rounded-lg p-4 text-center">
@@ -446,7 +392,6 @@ const FifthSection = () => {
                       <div className="text-gray-900 text-2xl font-bold">{selectedCar.specs.year || '2024'}</div>
                     </div>
                   </div>
-
                   {/* All Features */}
                   <div className="mb-8">
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">Features</h3>
@@ -458,7 +403,6 @@ const FifthSection = () => {
                       ))}
                     </div>
                   </div>
-
                   {/* Action Buttons */}
                   <div className="flex space-x-4">
                     <button 
@@ -481,7 +425,7 @@ const FifthSection = () => {
         </div>
       )}
 
-      {/* Custom CSS for hiding scrollbar */}
+      {/* Custom CSS for hiding scrollbar and clamping */}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
