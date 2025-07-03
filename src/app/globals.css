@@ -60,6 +60,17 @@ body, html {
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  .mobile-palette {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  .mobile-palette > div {
+    width: 100% !important;
+    height: 150px !important;
+  }
+}
+
 
 
 

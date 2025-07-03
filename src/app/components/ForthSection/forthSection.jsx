@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PaletteCard from './palettecard';
 
-const ForthSection = () => {
+export default function ForthSection() {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
@@ -42,12 +42,10 @@ const ForthSection = () => {
           </div>
         </div>
         {/* Right content */}
-        <div className="">
-          <PaletteCard carImage="/mnt/data/108d1467-9b1b-42e2-893d-493cebd0a5b0.png" location="Colombo" />
+        <div className="w-[1200px] max-w-full relative h-[500px] rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+          <PaletteCard />
         </div>
       </div>
     </section>
   );
-};
-
-export default ForthSection;
+}
