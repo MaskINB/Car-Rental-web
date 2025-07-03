@@ -13,7 +13,7 @@ const ForthSection = () => {
   }, []);
 
   return (
-    <section className="relative py-20 bg-[#000000] overflow-hidden">
+    <section className="relative py-30 bg-[#0b1016] overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
         {/* Left content */}
         <div className="lg:w-1/2">

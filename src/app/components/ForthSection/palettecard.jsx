@@ -3,10 +3,10 @@ import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 
 const CITIES = [
-  { img: '/image/pcar.jpeg', name: 'Paris' },
-  { img: '/image/new.png', name: 'London' },
-  { img: '/image/porsche.jpeg', name: 'Tokyo' },
-  { img: '/image/Vans.jpeg', name: 'New York' }
+  { img: '/image/paris.jpg', name: 'Paris' },
+  { img: '/image/london.jpeg', name: 'London' },
+  { img: '/image/Tokyo.jpg', name: 'Tokyo' },
+  { img: '/image/Newyork.jpg', name: 'New York' }
 ];
 
 export default function PaletteCard() {
