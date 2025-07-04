@@ -1,165 +1,126 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import Seeallbutton from '../Buttons/seeallbutton';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Orange Arrow SVG
+const Arrow = () => (
+  <svg width="38" height="32" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 16H34M34 16L28 10M34 16L28 22" stroke="#60a5fa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+// Decorative flower/star SVG
+const Flower = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <path d="M16 0L18.09 11.09L29.39 11.09L19.64 17.82L21.73 28.91L16 22.18L10.27 28.91L12.36 17.82L2.61 11.09L13.91 11.09L16 0Z" fill="#a78bfa"/>
+  </svg>
+);
+
 gsap.registerPlugin(ScrollTrigger);
 
 const SecondSection = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+
+  // refs for animation
   const sectionRef = useRef(null);
-  const containerRef = useRef(null);
   const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
+  const descRef = useRef(null);
   const buttonRef = useRef(null);
-  const imageRef = useRef(null);
+  const heroImageRef = useRef(null);
+  const smallImageRef = useRef(null);
+  const numbersRef = useRef(null);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/secondsectiondata`)
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error('Error fetching data:', error));
+    fetch('http://localhost:4000/secondsectiondata')
+      .then(res => res.json())
+      .then(json => setData(json[0]))
+      .catch(err => setData(null));
   }, []);
 
   useEffect(() => {
-    if (data.length) {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-
-      // Simple smooth animations
+    if (data) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
-          scrub: false,
+          toggleActions: 'restart none restart none', // animation runs every time when scrolling into view
         },
       });
 
-      // Container fade in
-      tl.fromTo(
-        containerRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-      );
-
-      // Title slide in from left
-      tl.fromTo(
-        titleRef.current,
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' },
-        '-=0.4'
-      );
-
-      // Description fade in
-      tl.fromTo(
-        descriptionRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        '-=0.3'
-      );
-
-      // Button scale in
-      tl.fromTo(
-        buttonRef.current,
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' },
-        '-=0.2'
-      );
-
-      // Image slide in from right
-      tl.fromTo(
-        imageRef.current,
-        { opacity: 0, x: 50 },
-        { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' },
-        '-=0.5'
-      );
-
-      // Simple floating animation for image
-      gsap.to(imageRef.current, {
-        y: -10,
-        duration: 2,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: 1,
-      });
+      tl.from(titleRef.current, { opacity: 0, y: -30, duration: 0.6 })
+        .from(descRef.current, { opacity: 0, y: 20, duration: 0.6 }, '-=0.4')
+        .from(buttonRef.current, { opacity: 0, scale: 0.9, duration: 0.4 }, '-=0.3')
+        .from(heroImageRef.current, { opacity: 0, x: 50, duration: 0.8 }, '-=0.5')
+        .from(smallImageRef.current, { opacity: 0, x: -50, duration: 0.8 }, '-=0.5')
+        .from(numbersRef.current, { opacity: 0, y: 30, duration: 0.6 }, '-=0.4');
     }
   }, [data]);
 
-  if (!data.length) {
+  if (!data) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-8 border border-gray-700/50 shadow-2xl">
-          <div className="flex items-center space-x-3">
-            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-xl text-gray-300">Loading...</p>
-          </div>
-        </div>
+        <p className="text-gray-500">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div
-      ref={sectionRef}
-      id={`section-${data[0].id}`}
-      className="pt-40 pb-20 px-5 lg:px-20 min-h-screen flex items-center justify-center relative overflow-hidden"
-    >
-      {/* Glassmorphism Container - keeping your original colors */}
-      <div
-        ref={containerRef}
-        className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-8 lg:p-12 border border-gray-700/50 shadow-2xl w-full max-w-7xl relative overflow-hidden"
-      >
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
-          {/* Text Section */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left space-y-8">
-            <h1 
-              ref={titleRef}
-              className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
-            >
-              {data[0].title}
-            </h1>
-            
-            <p 
-              ref={descriptionRef}
-              className="text-base lg:text-xl leading-relaxed text-gray-300 max-w-2xl"
-            >
-              {data[0].description}
-            </p>
-            
-            <div 
-              ref={buttonRef}
-              className="flex justify-center lg:justify-start mb-6 lg:mb-0"
-            >
-              <div className="transform hover:scale-105 transition-transform duration-300">
-                <Seeallbutton />
-              </div>
-            </div>
+    <section ref={sectionRef} className="bg-[#0b1016] py-20 px-4 font-sans">
+      {/* Top Section */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 items-start">
+        {/* Left: text */}
+        <div className="flex flex-col justify-start">
+          <h1 ref={titleRef} className="text-5xl font-extrabold uppercase mb-6 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            {data.title}
+          </h1>
+          <p ref={descRef} className="text-lg text-gray-300 mb-8 max-w-lg">
+            {data.description}
+          </p>
+          <button
+            ref={buttonRef}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full font-semibold text-lg shadow hover:from-blue-700 hover:to-purple-700 transition w-fit mb-6"
+          >
+            See all our Cars
+          </button>
+        </div>
+        {/* Right: Hero Image */}
+        <div className="flex flex-col items-end relative">
+          <div ref={heroImageRef} className="w-full max-w-xl rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg">
+            <Image src={data.imageMain} alt="Main Car" width={700} height={400} className="object-cover w-full h-full" priority />
           </div>
+          <span className="absolute left-[-30px] top-1/2 -translate-y-1/2 hidden lg:block">
+            <Flower />
+          </span>
+        </div>
+      </div>
 
-          {/* Image Section */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end relative">
-            <div 
-              ref={imageRef}
-              className="relative group"
-            >
-              <div className="relative bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-600/30 shadow-xl transform hover:scale-105 transition-all duration-500">
-                <Image
-                  src={data[0].image}
-                  alt="Premium Car"
-                  width={500}
-                  height={300}
-                  className="object-contain max-w-full h-auto rounded-xl"
-                />
+      {/* Bottom Section */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 items-center mt-10">
+        {/* Left: Supporting Image */}
+        <div className="flex justify-start">
+          <div ref={smallImageRef} className="w-full max-w-md rounded-xl overflow-hidden shadow-lg">
+            <Image src={data.imageSmall} alt="Luxury SUV" width={420} height={240} className="object-cover w-full h-full" />
+          </div>
+        </div>
+        {/* Right: Numbers */}
+        <div ref={numbersRef} className="flex flex-col items-start justify-center">
+          <div className="flex items-center mb-4">
+            <span className="text-lg font-extrabold uppercase tracking-widest text-blue-300 mr-3">Our Numbers</span>
+            <Arrow />
+          </div>
+          <div className="flex flex-row gap-12 mt-2">
+            {data.numbers.map((item, idx) => (
+              <div key={idx} className="text-center">
+                <p className="text-4xl font-extrabold text-blue-400 mb-2">{item.value}</p>
+                <p className="text-gray-300 text-base">{item.label}</p>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
