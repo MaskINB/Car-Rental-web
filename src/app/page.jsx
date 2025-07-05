@@ -15,11 +15,11 @@ export default function Home() {
   return (
     <>
     <Carousel/>
+    <Fifthsection/>
     <Secondsection/>
     <Thirdsection/>
     <ForthSection/>
     <Sixthsection/>
-    <Fifthsection/>
     <Footer/>
     </>
   );
