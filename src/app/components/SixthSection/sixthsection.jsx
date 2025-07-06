@@ -1,7 +1,7 @@
 'use client';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,52 +23,62 @@ export default function SixthSection() {
     { name: 'Nissan', path: '/logos/Nissan.png' }
   ];
 
+  const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
+  const buttonRef = useRef(null);
+  const brandsRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.0,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'restart none restart none',
         }
-      );
-
-      cardsRef.current.forEach((card, idx) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.0,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 90%',
-              toggleActions: 'play none none reverse',
-            },
-            delay: idx * 0.1,
-          }
-        );
       });
-    });
+
+      // Title
+      tl.from(titleRef.current, {
+        opacity: 0,
+        y: -40,
+        duration: 1.2,
+        ease: 'power4.out'
+      })
+
+      // Cards: fade, slide up, and slight scale from 0.95 to 1
+      .from(cardsRef.current, {
+        opacity: 0,
+        y: 50,
+        scale: 0.95,
+        duration: 1.4,
+        ease: 'power4.out',
+        stagger: 0.25
+      }, '-=0.6')
+
+      // Button: fade and scale
+      .from(buttonRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 1,
+        ease: 'power4.out'
+      }, '-=0.8')
+
+      // Brands: fade and slight slide up
+      .from(brandsRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 1.2,
+        ease: 'power4.out'
+      }, '-=0.8');
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="py-16 md:py-24  max-w-7xl mx-auto px-4 font-sans">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-[#0b1016] max-w-7xl mx-auto px-4 font-sans">
       <h2
         ref={titleRef}
         className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center uppercase mb-12 leading-tight tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -80,7 +90,7 @@ export default function SixthSection() {
         {stories.map((story, idx) => (
           <div
             key={story.id}
-            ref={(el) => (cardsRef.current[idx] = el)}
+            ref={el => cardsRef.current[idx] = el}
             className="flex flex-col bg-gray-900 rounded-2xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <div className="relative h-48 w-full">
@@ -105,14 +115,17 @@ export default function SixthSection() {
       </div>
 
       <div className="mt-10 flex justify-center">
-        <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition">
+        <button
+          ref={buttonRef}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition"
+        >
           See all Reviews
         </button>
       </div>
 
-      <div className="mt-12 flex flex-wrap justify-center gap-15">
+      <div ref={brandsRef} className="mt-12 flex flex-wrap justify-center gap-6">
         {brands.map(brand => (
-          <div key={brand.name} className="w-20 h-20 flex items-center justify-center p-2 shadow">
+          <div key={brand.name} className="w-20 h-20 flex items-center justify-center bg-gray-800 rounded-full p-2 shadow">
             <Image
               src={brand.path}
               alt={brand.name}
