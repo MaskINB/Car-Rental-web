@@ -1,9 +1,15 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PaletteCard from './palettecard';
 
 export default function ForthSection() {
   const [locations, setLocations] = useState([]);
+
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const btnRef = useRef(null);
+  const popularCitiesRef = useRef(null);
+  const paletteCardRef = useRef(null);
 
   useEffect(() => {
     fetch('http://localhost:4000/locations')
@@ -13,21 +19,35 @@ export default function ForthSection() {
   }, []);
 
   return (
-    <section className="relative py-30 bg-[#0b1016] overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative py-30 bg-[#0b1016] overflow-hidden"
+    >
       <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
         {/* Left content */}
         <div className="lg:w-1/2">
-          <h2 className="text-4xl sm:text-5xl font-extrabold mb-8 uppercase tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h2
+            ref={titleRef}
+            className="text-4xl sm:text-5xl font-extrabold mb-8 uppercase tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          >
             Find Cars In<br />Your Locations
           </h2>
           <p className="text-gray-300 mb-8 leading-relaxed max-w-xl">
             Discover luxury and electric vehicles at your fingertips. From downtown to the airport, find your next ride in seconds.
           </p>
-          <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition">
+          <button
+            ref={btnRef}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition"
+          >
             Find a Location
           </button>
           <div className="mt-10">
-            <h3 className="text-lg font-bold mb-4 text-white/80">Popular Cities</h3>
+            <h3
+              ref={popularCitiesRef}
+              className="text-lg font-bold mb-4 text-white/80"
+            >
+              Popular Cities
+            </h3>
             <div className="flex flex-wrap gap-4">
               {locations.map(loc => (
                 <div
@@ -42,7 +62,10 @@ export default function ForthSection() {
           </div>
         </div>
         {/* Right content */}
-        <div className="w-[1200px] max-w-full relative h-[500px] rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+        <div
+          ref={paletteCardRef}
+          className="w-[1200px] max-w-full relative h-[500px] rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row"
+        >
           <PaletteCard />
         </div>
       </div>
