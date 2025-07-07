@@ -27,7 +27,7 @@ export default function SixthSection() {
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
   const buttonRef = useRef(null);
-  const brandsRef = useRef(null);
+  const brandsWrapperRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -47,38 +47,43 @@ export default function SixthSection() {
         ease: 'power4.out'
       })
 
-      // Cards: fade, slide up, and slight scale from 0.95 to 1
+      // Cards: slower & smoother animation
       .from(cardsRef.current, {
         opacity: 0,
         y: 50,
         scale: 0.95,
-        duration: 1.4,
-        ease: 'power4.out',
-        stagger: 0.25
+        duration: 2,   // slower duration
+        ease: 'power3.out',
+        stagger: 0.4   // slower stagger
       }, '-=0.6')
 
-      // Button: fade and scale
+      // Button
       .from(buttonRef.current, {
         opacity: 0,
         scale: 0.9,
         duration: 1,
         ease: 'power4.out'
-      }, '-=0.8')
+      }, '-=1')
 
-      // Brands: fade and slight slide up
-      .from(brandsRef.current, {
-        opacity: 0,
-        y: 30,
-        duration: 1.2,
-        ease: 'power4.out'
-      }, '-=0.8');
     }, sectionRef);
+
+    // Brands carousel: move logos infinitely from right to left
+    const logos = brandsWrapperRef.current;
+    if (logos) {
+      const totalWidth = logos.scrollWidth / 2; // because we'll duplicate logos
+      gsap.to(logos, {
+        x: -totalWidth,
+        duration: 30, // slower scroll (increase to slow more)
+        ease: 'linear',
+        repeat: -1
+      });
+    }
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-[#0b1016] max-w-7xl mx-auto px-4 font-sans">
+    <section ref={sectionRef} className="py-16 md:py-24 max-w-7xl mx-auto px-4 font-sans">
       <h2
         ref={titleRef}
         className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center uppercase mb-12 leading-tight tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -123,18 +128,22 @@ export default function SixthSection() {
         </button>
       </div>
 
-      <div ref={brandsRef} className="mt-12 flex flex-wrap justify-center gap-6">
-        {brands.map(brand => (
-          <div key={brand.name} className="w-20 h-20 flex items-center justify-center bg-gray-800 rounded-full p-2 shadow">
-            <Image
-              src={brand.path}
-              alt={brand.name}
-              width={80}
-              height={80}
-              className="object-contain"
-            />
-          </div>
-        ))}
+      {/* Brands carousel */}
+      <div className="overflow-hidden mt-12">
+        <div ref={brandsWrapperRef} className="flex gap-6">
+          {/* Duplicate logos for smooth loop */}
+          {[...brands, ...brands].map((brand, idx) => (
+            <div key={idx} className="w-20 h-20 flex items-center justify-center bg-gray-800 rounded-full p-2 shadow">
+              <Image
+                src={brand.path}
+                alt={brand.name}
+                width={80}
+                height={80}
+                className="object-contain"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
