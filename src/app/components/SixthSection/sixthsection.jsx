@@ -31,6 +31,7 @@ export default function SixthSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Scroll animations
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -39,45 +40,45 @@ export default function SixthSection() {
         }
       });
 
-      // Title
       tl.from(titleRef.current, {
         opacity: 0,
         y: -40,
         duration: 1.2,
         ease: 'power4.out'
       })
+        .from(cardsRef.current, {
+          opacity: 0,
+          y: 50,
+          scale: 0.95,
+          duration: 2,
+          ease: 'power3.out',
+          stagger: 0.4
+        }, '-=0.6')
+        .from(buttonRef.current, {
+          opacity: 0,
+          scale: 0.9,
+          duration: 1,
+          ease: 'power4.out'
+        }, '-=1');
 
-      // Cards: slower & smoother animation
-      .from(cardsRef.current, {
-        opacity: 0,
-        y: 50,
-        scale: 0.95,
-        duration: 2,   // slower duration
-        ease: 'power3.out',
-        stagger: 0.4   // slower stagger
-      }, '-=0.6')
+      // Carousel animation: run when section is near viewport
+      const logos = brandsWrapperRef.current;
+      if (logos) {
+        const totalWidth = logos.scrollWidth / 2;
 
-      // Button
-      .from(buttonRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        ease: 'power4.out'
-      }, '-=1')
-
+        gsap.to(logos, {
+          x: -totalWidth,
+          duration: 30,
+          ease: 'linear',
+          repeat: -1,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom', // starts when section top hits bottom of viewport
+            toggleActions: 'play none none none'
+          }
+        });
+      }
     }, sectionRef);
-
-    // Brands carousel: move logos infinitely from right to left
-    const logos = brandsWrapperRef.current;
-    if (logos) {
-      const totalWidth = logos.scrollWidth / 2; // because we'll duplicate logos
-      gsap.to(logos, {
-        x: -totalWidth,
-        duration: 30, // slower scroll (increase to slow more)
-        ease: 'linear',
-        repeat: -1
-      });
-    }
 
     return () => ctx.revert();
   }, []);
@@ -128,12 +129,10 @@ export default function SixthSection() {
         </button>
       </div>
 
-      {/* Brands carousel */}
-      <div className="overflow-hidden mt-12">
-        <div ref={brandsWrapperRef} className="flex gap-6">
-          {/* Duplicate logos for smooth loop */}
+      <div className="overflow-hidden mt-12 flex justify-center">
+        <div ref={brandsWrapperRef} className="flex gap-12 items-center">
           {[...brands, ...brands].map((brand, idx) => (
-            <div key={idx} className="w-20 h-20 flex items-center justify-center bg-gray-800 rounded-full p-2 shadow">
+            <div key={idx} className="flex-shrink-0">
               <Image
                 src={brand.path}
                 alt={brand.name}
