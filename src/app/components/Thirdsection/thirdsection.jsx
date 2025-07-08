@@ -1,431 +1,452 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
-import { Draggable } from 'gsap/dist/Draggable';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(Draggable);
+const Car3DViewer = dynamic(() => import('./Car3DViewer'), { ssr: false });
 
-const carData = [
-  {
-    id: 1,
-    name: 'Lamborghini Urus',
-    subtitle: 'SUPER SUV',
-    image: '/image/new.png',
-    price: 225,
-    specs: {
-      speed: '306 km/h',
-      transmission: '6 speed',
-      seats: '5 seats',
-      fuel: '5 liters'
-    },
-    color: 'from-green-400 to-emerald-600',
-    bgGradient: 'from-green-900/20 to-emerald-900/20'
-  },
-  {
-    id: 2,
-    name: 'Ferrari F8 Tributo',
-    subtitle: 'SPORTS CAR',
-    image: '/image/WhatsApp Image 2025-03-29 at 8.18.07 PM (1).jpeg',
-    price: 350,
-    specs: {
-      speed: '340 km/h',
-      transmission: '7 speed',
-      seats: '2 seats',
-      fuel: '4 liters'
-    },
-    color: 'from-yellow-400 to-orange-600',
-    bgGradient: 'from-yellow-900/20 to-orange-900/20'
-  },
-  {
-    id: 3,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  },
-  {
-    id: 4,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  },
-  {
-    id: 5,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  },{
-    id: 6,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  },{
-    id: 7,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  },
-  {
-    id: 8,
-    name: 'BMW X7',
-    subtitle: 'LUXURY SUV',
-    image: '/images/cars/blue-suv.png',
-    price: 180,
-    specs: {
-      speed: '250 km/h',
-      transmission: '8 speed',
-      seats: '7 seats',
-      fuel: '6 liters'
-    },
-    color: 'from-blue-400 to-cyan-600',
-    bgGradient: 'from-blue-900/20 to-cyan-900/20'
-  }
-];
+gsap.registerPlugin(ScrollTrigger);
 
 const FifthSection = () => {
-  const containerRef = useRef(null);
-  const cardsRef = useRef([]);
-  const cursorRef = useRef(null);
-  const cursorTextRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [dragStart, setDragStart] = useState({ x: 0, scrollLeft: 0 });
+  const [selectedCardId, setSelectedCardId] = useState(null);
 
-  // Custom cursor effect
+  const router = useRouter();
+  const sectionRef = useRef(null);
+  const cardsContainerRef = useRef(null);
+  const titleRef = useRef(null);
+
+  // Fetch data from mock server
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      
-      if (cursorRef.current) {
-        gsap.to(cursorRef.current, {
-          x: e.clientX,
-          y: e.clientY,
-          duration: 0.1,
-          ease: 'power2.out'
-        });
+    const fetchCarData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('http://localhost:4000/carcard');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const jsonData = await response.json();
+        setData(jsonData);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load car data. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
-
-    const handleMouseEnter = () => {
-      if (cursorRef.current) {
-        gsap.to(cursorRef.current, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.3
-        });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      if (cursorRef.current) {
-        gsap.to(cursorRef.current, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.3
-        });
-      }
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    containerRef.current?.addEventListener('mouseenter', handleMouseEnter);
-    containerRef.current?.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      containerRef.current?.removeEventListener('mouseenter', handleMouseEnter);
-      containerRef.current?.removeEventListener('mouseleave', handleMouseLeave);
-    };
+    fetchCarData();
   }, []);
 
-  // Draggable carousel setup
+  // Entrance animations
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const cards = cardsRef.current.filter(Boolean);
-    
-    // Position cards
-    cards.forEach((card, index) => {
-      const offset = (index - currentIndex) * 400;
-      const scale = index === currentIndex ? 1 : 0.8;
-      const opacity = index === currentIndex ? 1 : 0.6;
-      const zIndex = index === currentIndex ? 10 : 1;
-
-      gsap.set(card, {
-        x: offset,
-        scale: scale,
-        opacity: opacity,
-        zIndex: zIndex
+    if (data.length > 0 && !loading) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
       });
+      tl.fromTo(titleRef.current, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+      tl.fromTo(cardsContainerRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4');
+    }
+  }, [data, loading]);
+
+  // Drag handlers
+  const handleMouseDown = (e) => {
+    if (!cardsContainerRef.current) return;
+    setIsDragging(true);
+    setDragStart({
+      x: e.pageX - cardsContainerRef.current.offsetLeft,
+      scrollLeft: cardsContainerRef.current.scrollLeft,
     });
-
-    // Create draggable
-    const dragInstance = Draggable.create(containerRef.current, {
-      type: 'x',
-      bounds: { minX: -200, maxX: 200 },
-      inertia: true,
-      onDragStart: () => {
-        setIsDragging(true);
-        if (cursorTextRef.current) {
-          gsap.to(cursorTextRef.current, {
-            scale: 1.2,
-            duration: 0.2
-          });
-        }
-      },
-      onDrag: function() {
-        const progress = this.x / 100;
-        if (Math.abs(progress) > 1) {
-          const direction = progress > 0 ? -1 : 1;
-          const newIndex = currentIndex + direction;
-          if (newIndex >= 0 && newIndex < carData.length) {
-            setCurrentIndex(newIndex);
-            this.x = 0;
-          }
-        }
-      },
-      onDragEnd: () => {
-        setIsDragging(false);
-        if (cursorTextRef.current) {
-          gsap.to(cursorTextRef.current, {
-            scale: 1,
-            duration: 0.2
-          });
-        }
-        gsap.to(containerRef.current, {
-          x: 0,
-          duration: 0.5,
-          ease: 'power2.out'
-        });
+    e.preventDefault();
+  };
+  const handleMouseMove = (e) => {
+    if (!isDragging || !cardsContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - cardsContainerRef.current.offsetLeft;
+    const walk = (x - dragStart.x) * 2;
+    window.requestAnimationFrame(() => {
+      if (cardsContainerRef.current) {
+        cardsContainerRef.current.scrollLeft = dragStart.scrollLeft - walk;
       }
-    })[0];
+    });
+  };
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
 
-    return () => {
-      if (dragInstance) dragInstance.kill();
-    };
-  }, [currentIndex]);
+  // Touch handlers
+  const handleTouchStart = (e) => {
+    if (!cardsContainerRef.current) return;
+    setIsDragging(true);
+    setDragStart({
+      x: e.touches[0].pageX - cardsContainerRef.current.offsetLeft,
+      scrollLeft: cardsContainerRef.current.scrollLeft,
+    });
+  };
+  const handleTouchMove = (e) => {
+    if (!isDragging || !cardsContainerRef.current) return;
+    const x = e.touches[0].pageX - cardsContainerRef.current.offsetLeft;
+    const walk = (x - dragStart.x) * 2;
+    window.requestAnimationFrame(() => {
+      if (cardsContainerRef.current) {
+        cardsContainerRef.current.scrollLeft = dragStart.scrollLeft - walk;
+      }
+    });
+  };
+  const handleTouchEnd = () => setIsDragging(false);
 
-  const currentCar = carData[currentIndex];
+  // Card click handler for popup (only if not dragging)
+  const handleCardClick = (car, e) => {
+    if (!isDragging) {
+      e.stopPropagation();
+      setSelectedCardId(car.id);
+    }
+  };
+
+  // Reserve button click handler for routing
+  const handleReserveClick = (car, e) => {
+    e.stopPropagation();
+    router.push(`/car`);
+  };
+
+  // Close popup handler
+  const closePopup = () => setSelectedCardId(null);
+  const handlePopupBackdropClick = (e) => {
+    if (e.target === e.currentTarget) closePopup();
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <section className="py-20 flex items-center justify-center" style={{ background: '#0e1424' }}>
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white text-sm">Loading cars...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <section className="py-20 flex items-center justify-center" style={{ background: '#0e1424' }}>
+        <div className="text-center">
+          <p className="text-red-400 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  const selectedCar = data.find(car => car.id === selectedCardId);
 
   return (
-    <>
-      {/* Custom Cursor */}
-      <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 w-20 h-20 pointer-events-none z-50 mix-blend-difference"
-        style={{ transform: 'translate(-50%, -50%)' }}
-      >
-        <div className="relative w-full h-full">
-          {/* Outer circle */}
-          <div className="absolute inset-0 border-2 border-white rounded-full animate-pulse"></div>
-          
-          {/* Inner circle */}
-          <div className="absolute inset-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/50"></div>
-          
-          {/* Center dot */}
-          <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
-          
-          {/* Drag text */}
-          <div 
-            ref={cursorTextRef}
-            className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white text-xs font-bold tracking-wider"
-          >
-            DRAG
-          </div>
-        </div>
+    <section 
+      ref={sectionRef}
+      className="py-22 relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #0e1424 0%, #1a2332 100%)' }}
+    >
+      {/* Background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0/4 left-0/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
-      <section className="min-h-screen py-20 px-5 lg:px-20 relative overflow-hidden cursor-none">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br"></div>
-        <div className={`absolute inset-0 bg-gradient-to-br ${currentCar.bgGradient}`}></div>
-        
-        {/* Animated background elements */}
-        <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto 1px-2 sm:px-4">
+        {/* Section Title */}
+        <div ref={titleRef} className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            PICK YOUR DREAM CAR
+          </h2>
+          <p className="text-gray-300 max-w-xl mx-auto text-sm sm:text-base">
+            Discover luxury vehicles with stunning performance
+          </p>
+        </div>
 
-        {/* Main Container */}
-        <div className="relative z-10 max-w-7xl mx-auto">
-          
-          {/* Title */}
-          <div className="text-center mb-16">
-            <h1 className="text-2xl lg:text-7xl text-black  uppercase tracking-wider mb-4">
-              PICK YOUR DREAM<br />CAR TODAY
-            </h1>
-            <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
-          </div>
-
-          {/* Car Card Showcase */}
-          <div 
-            ref={containerRef}
-            className="relative h-[600px] flex items-center justify-center mb-12"
-          >
-            {carData.map((car, index) => (
+        {/* Draggable Cards Container */}
+        <div 
+          ref={cardsContainerRef}
+          className={`overflow-x-auto scrollbar-hide pb-5 pt-4 ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+            scrollBehavior: 'smooth'
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="flex space-x-15 w-max">
+            {data.map((car, index) => (
               <div
                 key={car.id}
-                ref={el => cardsRef.current[index] = el}
-                className="absolute w-96 h-[500px]"
+                className={`
+                  flex-shrink-0
+                  w-[90vw] sm:w-[380px] md:w-[420px] lg:w-[470px]
+                  h-[520px] sm:h-[440px]
+                  transition-all duration-300
+                  ${selectedCardId 
+                    ? (car.id === selectedCardId ? 'z-20 scale-105' : 'opacity-30 pointer-events-none') 
+                    : (!isDragging ? 'hover:scale-105 cursor-pointer' : 'cursor-grabbing')
+                  }
+                `}
+                onClick={(e) => handleCardClick(car, e)}
               >
-                {/* Gaming Card */}
-                <div className={`relative w-full h-full bg-gradient-to-br ${car.color} rounded-3xl p-1 shadow-2xl`}>
-                  <div className="w-full h-full bg-gray-900/95 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-600/30 relative">
-                    
-                    {/* Card Header */}
-                    <div className="absolute top-0 left-0 right-0 p-6 z-20">
-                      <div className="flex justify-between items-start">
+                {/* Card Container */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden flex flex-col h-full">
+                  {/* Image Section */}
+                  <div className="relative w-full aspect-[16/7] md:aspect-[16/6] lg:aspect-[16/5] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-xl">
+                    <Image
+                      src={car.image}
+                      alt={car.name}
+                      fill
+                      className="object-cover object-center pointer-events-none"
+                      priority={index === 0}
+                      draggable={false}
+                    />
+                    {/* Availability Badge */}
+                    <div className="absolute top-2 left-2">
+                      <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        {car.availability}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Content Section */}
+                  <div className="flex-1 flex flex-col p-4">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
                         <div>
-                          <p className="text-gray-400 text-sm font-medium tracking-wider">{car.subtitle}</p>
-                          <h2 className="text-white text-2xl font-bold mt-1">{car.name}</h2>
-                        </div>
-                        <div className="bg-green-500/20 backdrop-blur-sm rounded-full px-3 py-1 border border-green-400/30">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            <span className="text-green-400 text-xs font-medium">AVAILABLE</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Car Image */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative w-80 h-48 mt-16">
-                        <Image
-                          src={car.image}
-                          alt={car.name}
-                          fill
-                          className="object-contain filter drop-shadow-2xl"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Specs Grid */}
-                    <div className="absolute bottom-20 left-6 right-6">
-                      <div className="grid grid-cols-2 gap-3">
-                        {Object.entries(car.specs).map(([key, value], specIndex) => (
-                          <div key={key} className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-3 border border-gray-600/20">
-                            <div className="flex items-center space-x-3">
-                              <div className={`w-8 h-8 bg-gradient-to-r ${car.color} rounded-lg flex items-center justify-center`}>
-                                <span className="text-white text-xs">
-                                  {key === 'speed' && '⚡'}
-                                  {key === 'transmission' && '⚙️'}
-                                  {key === 'seats' && '👥'}
-                                  {key === 'fuel' && '⛽'}
-                                </span>
-                              </div>
-                              <div>
-                                <p className="text-gray-400 text-xs uppercase">{key}</p>
-                                <p className="text-white font-semibold text-sm">{value}</p>
-                              </div>
+                          <span className="text-blue-600 text-xs font-semibold uppercase">{car.category}</span>
+                          <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">{car.name}</h3>
+                          <div className="flex items-center mb-1">
+                            <div className="flex text-yellow-400 mr-2">
+                              {[...Array(5)].map((_, i) => (
+                                <svg key={i} className="w-3 h-3 fill-current" viewBox="0 0 20 20">
+                                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                              ))}
                             </div>
+                            <span className="text-gray-600 text-xs">{car.rating} ({car.reviews})</span>
                           </div>
-                        ))}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-gray-400 text-xs line-through">${car.originalPrice}</div>
+                          <div className="text-lg font-bold text-gray-900">${car.price}</div>
+                          <div className="text-gray-600 text-xs">per day</div>
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Price Tag */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className={`bg-gradient-to-r ${car.color} rounded-xl p-4`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-black text-2xl font-bold">${car.price}</span>
-                            <span className="text-black/70 text-sm">/day</span>
-                          </div>
-                          <div className="flex space-x-2">
-                            <button className="bg-black/20 hover:bg-black/30 text-black px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm">
-                              Details
-                            </button>
-                            <button className="bg-black text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 text-sm">
-                              Rent Now
-                            </button>
-                          </div>
+                      <p className="text-gray-600 mb-2 text-xs sm:text-sm line-clamp-2">
+                        {car.description}
+                      </p>
+                      {/* Specs */}
+                      <div className="grid grid-cols-4 gap-2 mb-2">
+                        <div className="bg-blue-50 rounded p-1 text-center">
+                          <div className="text-blue-600 text-[10px] font-semibold">SEATS</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.seats}</div>
+                        </div>
+                        <div className="bg-green-50 rounded p-1 text-center">
+                          <div className="text-green-600 text-[10px] font-semibold">MPG</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.mpg}</div>
+                        </div>
+                        <div className="bg-purple-50 rounded p-1 text-center">
+                          <div className="text-purple-600 text-[10px] font-semibold">ENGINE</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.engine || 'V6'}</div>
+                        </div>
+                        <div className="bg-orange-50 rounded p-1 text-center">
+                          <div className="text-orange-600 text-[10px] font-semibold">YEAR</div>
+                          <div className="text-gray-900 text-xs font-bold">{car.specs.year || '2024'}</div>
+                        </div>
+                      </div>
+                      {/* Features */}
+                      <div className="mb-2">
+                        <div className="flex flex-wrap gap-1">
+                          {car.features.slice(0, 3).map((feature, idx) => (
+                            <span key={idx} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-full text-xs">
+                              {feature}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
-
-                    {/* Corner Accents */}
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-blue-400/50 rounded-tr-lg"></div>
-                    <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-blue-400/50 rounded-bl-lg"></div>
+                    {/* Button Row */}
+                    <div className="flex space-x-2 mt-auto">
+                      <button 
+                        onClick={(e) => handleReserveClick(car, e)}
+                        className="flex-1 bg-blue-600 text-white py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-all"
+                      >
+                        Reserve Now
+                      </button>
+                      <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-gray-50 transition-all">
+                        Details
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Navigation Dots */}
-          <div className="flex justify-center space-x-3 mb-8">
-            {carData.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? `bg-gradient-to-r ${currentCar.color} scale-125` 
-                    : 'bg-gray-600 hover:bg-gray-500'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Instructions */}
-          <div className="text-center">
-            <p className="text-gray-400 text-lg mb-2">
-              🎮 Drag horizontally to explore different cars
-            </p>
-            <p className="text-gray-500 text-sm">
-              Move your mouse over the cards to see the custom cursor
-            </p>
+        {/* Scroll Indicator */}
+        <div className="text-center -mt-2">
+          <div className="text-white/60 text-sm">
+            Showing {data.length} premium vehicles
           </div>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Car Details Popup */}
+      {selectedCardId && selectedCar && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 "
+          onClick={handlePopupBackdropClick}
+        >
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in duration-300">
+            {/* Close Button */}
+            <button 
+              onClick={closePopup}
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            {/* Popup Content */}
+            <div className="p-6">
+              <div className="grid md:grid-cols-2 gap-10">
+                {/* 3D Car Viewer */}
+                <div className="flex flex-col items-center justify-center">
+                  {selectedCar.model3d ? (
+                    <Car3DViewer modelUrl={selectedCar.model3d} />
+                  ) : (
+                    <div className="relative w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center">
+                      <span className="text-gray-400">3D Model Not Available</span>
+                    </div>
+                  )}
+                </div>
+                {/* Car Details */}
+                <div>
+                  <div className="mb-6">
+                    <span className="text-blue-600 text-sm font-semibold uppercase">{selectedCar.category}</span>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedCar.name}</h2>
+                    <div className="flex items-center mb-4">
+                      <div className="flex text-yellow-400 mr-3">
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="text-gray-600 font-medium">{selectedCar.rating} ({selectedCar.reviews} reviews)</span>
+                    </div>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-gray-400 text-lg line-through">${selectedCar.originalPrice}</div>
+                      <div className="text-4xl font-bold text-gray-900">${selectedCar.price}</div>
+                      <div className="text-gray-600">per day</div>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mb-6 text-base leading-relaxed">
+                    {selectedCar.description}
+                  </p>
+                  {/* Enhanced Specs */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-blue-50 rounded-lg p-4 text-center">
+                      <div className="text-blue-600 text-sm font-semibold">SEATS</div>
+                      <div className="text-gray-900 text-2xl font-bold">{selectedCar.specs.seats}</div>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-4 text-center">
+                      <div className="text-green-600 text-sm font-semibold">MPG</div>
+                      <div className="text-gray-900 text-2xl font-bold">{selectedCar.specs.mpg}</div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-4 text-center">
+                      <div className="text-purple-600 text-sm font-semibold">ENGINE</div>
+                      <div className="text-gray-900 text-lg font-bold">{selectedCar.specs.engine || 'V6'}</div>
+                    </div>
+                    <div className="bg-orange-50 rounded-lg p-4 text-center">
+                      <div className="text-orange-600 text-sm font-semibold">YEAR</div>
+                      <div className="text-gray-900 text-2xl font-bold">{selectedCar.specs.year || '2024'}</div>
+                    </div>
+                  </div>
+                  {/* All Features */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Features</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCar.features.map((feature, idx) => (
+                        <span key={idx} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-2 rounded-full text-sm font-medium">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Action Buttons */}
+                  <div className="flex space-x-4">
+                    <button 
+                      onClick={(e) => handleReserveClick(selectedCar, e)}
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-lg"
+                    >
+                      Reserve Now
+                    </button>
+                    <button 
+                      onClick={closePopup}
+                      className="flex-1 border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-xl text-lg font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all transform hover:scale-105"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom CSS for hiding scrollbar and clamping */}
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes zoom-in {
+          from { transform: scale(0.9); }
+          to { transform: scale(1); }
+        }
+        .animate-in {
+          animation: fade-in 0.3s ease-out, zoom-in 0.3s ease-out;
+        }
+      `}</style>
+    </section>
   );
 };
 
 export default FifthSection;
-
-

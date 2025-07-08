@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SixthSection = () => {
+export default function SixthSection() {
   const stories = [
     { id: 1, date: '25', month: 'December', year: '2023', title: 'Electrifying of the Experience', description: 'Integrating high performance techno into a new design.', image: '/image/pcar.jpeg' },
     { id: 2, date: '04', month: 'December', year: '2022', title: 'FLEXIBLE HIRE FOR BUSINESS', description: 'When we develop our cars, we always focus on the details.', image: '/image/Rcar.jpeg' },
@@ -24,121 +24,126 @@ const SixthSection = () => {
   ];
 
   const sectionRef = useRef(null);
-  const storyRefs = useRef([]);
-  const brandRefs = useRef([]);
+  const titleRef = useRef(null);
+  const cardsRef = useRef([]);
+  const buttonRef = useRef(null);
+  const brandsWrapperRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate stories with stagger
-      gsap.fromTo(
-        storyRefs.current,
-        {
+      // Scroll animations
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'restart none restart none',
+        }
+      });
+
+      tl.from(titleRef.current, {
+        opacity: 0,
+        y: -40,
+        duration: 1.2,
+        ease: 'power4.out'
+      })
+        .from(cardsRef.current, {
           opacity: 0,
           y: 50,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
+          scale: 0.95,
+          duration: 2,
           ease: 'power3.out',
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-
-      // Animate brands with stagger
-      gsap.fromTo(
-        brandRefs.current,
-        {
+          stagger: 0.4
+        }, '-=0.6')
+        .from(buttonRef.current, {
           opacity: 0,
-          scale: 0.8,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-          ease: 'back.out',
-          stagger: 0.1,
+          scale: 0.9,
+          duration: 1,
+          ease: 'power4.out'
+        }, '-=1');
+
+      // Carousel animation: run when section is near viewport
+      const logos = brandsWrapperRef.current;
+      if (logos) {
+        const totalWidth = logos.scrollWidth / 2;
+
+        gsap.to(logos, {
+          x: -totalWidth,
+          duration: 30,
+          ease: 'linear',
+          repeat: -1,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
+            start: 'top bottom', // starts when section top hits bottom of viewport
+            toggleActions: 'play none none none'
           }
-        }
-      );
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={sectionRef} className='py-16 px-8 bg-white max-w-7xl mx-auto relative overflow-hidden'>
-      {/* Optional: Add SVG background shapes */}
-      <svg className='absolute top-0 left-0 w-full h-full pointer-events-none' style={{ zIndex: 0 }}>
-        <circle cx="20%" cy="10%" r="100" fill="rgba(255, 230, 230, 0.2)" />
-        <circle cx="80%" cy="30%" r="150" fill="rgba(230, 230, 255, 0.2)" />
-      </svg>
+    <section ref={sectionRef} className="py-16 md:py-24 max-w-7xl mx-auto px-4 font-sans">
+      <h2
+        ref={titleRef}
+        className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center uppercase mb-12 leading-tight tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+      >
+        STORIES BEHIND<br className="hidden md:block" /> THE WHEEL
+      </h2>
 
-      <h2 className='text-4xl font-bold text-center mb-12 relative z-10'>STORIES BEHIND THE WHEEL</h2>
-
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10'>
-        {stories.map((story, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {stories.map((story, idx) => (
           <div
             key={story.id}
-            ref={el => storyRefs.current[index] = el}
-            className='flex flex-col story-card group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 p-6 rounded-2xl backdrop-blur-sm bg-white/90 border border-white/20'
+            ref={el => cardsRef.current[idx] = el}
+            className="flex flex-col bg-gray-900 rounded-2xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
-            <div className='flex items-start mb-6'>
-              <div className='mr-4'>
-                <span className='text-3xl font-bold block'>{story.date}</span>
-                <span className='text-sm text-gray-600 block'>{story.month} {story.year}</span>
+            <div className="relative h-48 w-full">
+              <Image
+                src={story.image}
+                alt={story.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                {story.date} {story.month} {story.year}
               </div>
             </div>
-            <h3 className='text-xl font-bold uppercase mb-3'>{story.title}</h3>
-            <p className='text-gray-600 mb-4'>{story.description}</p>
-            <div className='mt-auto'>
-              <div className='h-64 w-full relative rounded-xl overflow-hidden group-hover:scale-105 transition-transform'>
-                <Image
-                  src={story.image}
-                  alt={story.title}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  className='group-hover:brightness-110 transition-all'
-                />
-              </div>
+            <div className="p-4 flex flex-col flex-1">
+              <h3 className="text-lg font-semibold mb-2 text-white">{story.title}</h3>
+              <p className="text-gray-400 text-sm flex-1">{story.description}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className='mt-12 flex justify-center relative z-10'>
-        <button className='px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition transform hover:scale-105'>
+      <div className="mt-10 flex justify-center">
+        <button
+          ref={buttonRef}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition"
+        >
           See all Reviews
         </button>
       </div>
 
-      <div className='mt-16 flex flex-wrap justify-center gap-8 relative z-10'>
-        {brands.map((brand, index) => (
-          <div
-            key={brand.name}
-            ref={el => brandRefs.current[index] = el}
-            className='w-20 h-20 opacity-70 hover:opacity-100 transition hover:scale-110'
-          >
-            <Image
-              src={brand.path}
-              alt={brand.name}
-              width={80}
-              height={80}
-            />
-          </div>
-        ))}
+      <div className="overflow-hidden mt-12 flex justify-center">
+        <div ref={brandsWrapperRef} className="flex gap-12 items-center">
+          {[...brands, ...brands].map((brand, idx) => (
+            <div key={idx} className="flex-shrink-0">
+              <Image
+                src={brand.path}
+                alt={brand.name}
+                width={80}
+                height={80}
+                className="object-contain"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default SixthSection;
+}

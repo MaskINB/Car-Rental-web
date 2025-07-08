@@ -1,66 +1,74 @@
-import React from 'react';
-import Image from 'next/image';
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
+import PaletteCard from './palettecard';
 
-const forthSection = () => {
+export default function ForthSection() {
+  const [locations, setLocations] = useState([]);
+
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const btnRef = useRef(null);
+  const popularCitiesRef = useRef(null);
+  const paletteCardRef = useRef(null);
+
+  useEffect(() => {
+    fetch('http://localhost:4000/locations')
+      .then(res => res.json())
+      .then(setLocations)
+      .catch(() => setLocations([]));
+  }, []);
+
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* Left content */}
-          <div className="lg:w-1/2">
-            <h2 className="text-5xl font-bold mb-8 uppercase tracking-wider">
-              FIND CARS IN<br />YOUR LOCATIONS
-            </h2>
-            
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              When we develop our cars, we always focus on the details. Our
-              commitment to design and innovation propels us towards a smarter and
-              more sustainable future. The same commitment goes for our range of
-              additionals, an exclusive collection of Polestar products that celebrate
-              and showcase our unique community identity. The additionals range will
-              keep expanding. And who knows, we might even drop some surprises in
-              limited numbers every now and then.
-            </p>
-            
-            <button className="bg-black text-white px-8 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors">
-              Find a Location
-            </button>
-          </div>
-          
-          {/* Right content - Mobile app mockup */}
-          <div className="lg:w-1/2 relative">
-            <div className="relative">
-              {/* Background map image */}
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src="/image/Vans.jpeg" 
-                  alt="Location Map" 
-                  className="w-full h-full object-cover opacity-30"
-                />
-              </div>
-              
-              {/* Phone mockup */}
-              <div className="relative z-10">
-                <img 
-                  src="/image/porsche.jpeg" 
-                  alt="Mobile App" 
-                  className="w-full h-auto"
-                />
-              </div>
-              
-              {/* Map pins and route elements can be added as absolute positioned elements */}
-              <div className="absolute top-1/4 left-1/4 z-20">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              </div>
-              <div className="absolute bottom-1/3 right-1/3 z-20">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              </div>
+    <section
+      ref={sectionRef}
+      className="relative py-30 bg-[#0b1016] overflow-hidden"
+    >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
+        {/* Left content */}
+        <div className="lg:w-1/2">
+          <h2
+            ref={titleRef}
+            className="text-4xl sm:text-5xl font-extrabold mb-8 uppercase tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          >
+            Find Cars In<br />Your Locations
+          </h2>
+          <p className="text-gray-300 mb-8 leading-relaxed max-w-xl">
+            Discover luxury and electric vehicles at your fingertips. From downtown to the airport, find your next ride in seconds.
+          </p>
+          <button
+            ref={btnRef}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition"
+          >
+            Find a Location
+          </button>
+          <div className="mt-10">
+            <h3
+              ref={popularCitiesRef}
+              className="text-lg font-bold mb-4 text-white/80"
+            >
+              Popular Cities
+            </h3>
+            <div className="flex flex-wrap gap-4">
+              {locations.map(loc => (
+                <div
+                  key={loc.id}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur shadow border border-white/10 hover:bg-white/20 transition"
+                >
+                  <span className="font-bold text-blue-400">{loc.city}</span>
+                  <span className="text-white/70 text-xs">{loc.carsAvailable} cars</span>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+        {/* Right content */}
+        <div
+          ref={paletteCardRef}
+          className="w-[1200px] max-w-full relative h-[500px] rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row"
+        >
+          <PaletteCard />
         </div>
       </div>
     </section>
   );
-};
-
-export default forthSection;
+}
