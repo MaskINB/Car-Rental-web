@@ -29,54 +29,77 @@ const ArrowIcon = () => (
 );
 
 const FifthSection = () => {
+  const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
 
   useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
     const ctx = gsap.context(() => {
-      // Animate title
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 40 },
+      // Simple title animation - slide up with fade
+      gsap.fromTo(titleRef.current,
+        { y: 50, opacity: 0 },
         {
-          opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: titleRef.current,
-            start: 'top 85%',
-            toggleActions: 'play reverse play reverse',
-          },
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+          }
         }
       );
 
-      // Animate cards with stagger
-      cardsRef.current.forEach((card, idx) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 90%',
-              toggleActions: 'play reverse play reverse',
-            },
-            delay: idx * 0.1,
+      // Simple cards stagger animation
+      gsap.fromTo(cardsRef.current,
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cardsRef.current[0],
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
           }
-        );
+        }
+      );
+
+      // Simple hover animations
+      cardsRef.current.forEach(card => {
+        if (!card) return;
+
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, { 
+            scale: 1.05, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, { 
+            scale: 1, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+          });
+        });
       });
-    });
+
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="w-full py-16 md:py-24 bg-[#0b1016] font-sans">
+    <section ref={sectionRef} className="w-full py-16 md:py-24 bg-[#0b1016] font-sans">
       <div className="max-w-6xl mx-auto px-4">
         <h2
           ref={titleRef}
@@ -89,7 +112,7 @@ const FifthSection = () => {
             <Link href={vehicle.link} key={vehicle.label} className="group block">
               <div
                 ref={(el) => (cardsRef.current[idx] = el)}
-                className="relative rounded-2xl overflow-hidden shadow-xl aspect-video transform transition-transform duration-300 group-hover:scale-105 bg-gray-900 cursor-pointer"
+                className="relative rounded-2xl overflow-hidden shadow-xl aspect-video bg-gray-900 cursor-pointer"
               >
                 <Image
                   src={vehicle.img}
