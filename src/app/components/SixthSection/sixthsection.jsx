@@ -4,7 +4,10 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// Register ScrollTrigger plugin
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function SixthSection() {
   const stories = [
@@ -25,59 +28,134 @@ export default function SixthSection() {
 
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
+  const cardsContainerRef = useRef(null);
   const cardsRef = useRef([]);
   const buttonRef = useRef(null);
   const brandsWrapperRef = useRef(null);
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     const ctx = gsap.context(() => {
-      // Scroll animations
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'restart none restart none',
-        }
-      });
-
-      tl.from(titleRef.current, {
-        opacity: 0,
-        y: -40,
-        duration: 1.2,
-        ease: 'power4.out'
-      })
-        .from(cardsRef.current, {
-          opacity: 0,
-          y: 50,
-          scale: 0.95,
-          duration: 2,
-          ease: 'power3.out',
-          stagger: 0.4
-        }, '-=0.6')
-        .from(buttonRef.current, {
-          opacity: 0,
-          scale: 0.9,
+      // Title animation - slide up with fade
+      gsap.fromTo(titleRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
           duration: 1,
-          ease: 'power4.out'
-        }, '-=1');
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
 
-      // Carousel animation: run when section is near viewport
+      // Cards stagger animation - Fixed to work properly
+      gsap.fromTo(cardsRef.current,
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cardsContainerRef.current,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Button animation - scale up with bounce
+      gsap.fromTo(buttonRef.current,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: buttonRef.current,
+            start: 'top 90%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Brands section animation
+      gsap.fromTo(brandsWrapperRef.current,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: brandsWrapperRef.current,
+            start: 'top 95%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Continuous carousel animation for brands
       const logos = brandsWrapperRef.current;
       if (logos) {
         const totalWidth = logos.scrollWidth / 2;
-
         gsap.to(logos, {
           x: -totalWidth,
           duration: 30,
           ease: 'linear',
-          repeat: -1,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom', // starts when section top hits bottom of viewport
-            toggleActions: 'play none none none'
-          }
+          repeat: -1
         });
       }
+
+      // Interactive hover animations for cards
+      cardsRef.current.forEach(card => {
+        if (!card) return;
+
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, { 
+            scale: 1.05, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, { 
+            scale: 1, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+          });
+        });
+      });
+
+      // Button hover animation
+      buttonRef.current?.addEventListener('mouseenter', () => {
+        gsap.to(buttonRef.current, { 
+          scale: 1.05, 
+          duration: 0.3, 
+          ease: 'power2.out' 
+        });
+      });
+
+      buttonRef.current?.addEventListener('mouseleave', () => {
+        gsap.to(buttonRef.current, { 
+          scale: 1, 
+          duration: 0.3, 
+          ease: 'power2.out' 
+        });
+      });
+
     }, sectionRef);
 
     return () => ctx.revert();
@@ -92,19 +170,19 @@ export default function SixthSection() {
         STORIES BEHIND<br className="hidden md:block" /> THE WHEEL
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {stories.map((story, idx) => (
           <div
             key={story.id}
             ref={el => cardsRef.current[idx] = el}
-            className="flex flex-col bg-gray-900 rounded-2xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="flex flex-col bg-gray-900 rounded-2xl shadow-lg overflow-hidden cursor-pointer backdrop-blur-sm border border-white/10"
           >
             <div className="relative h-48 w-full">
               <Image
                 src={story.image}
                 alt={story.title}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-300 hover:scale-110"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -123,7 +201,7 @@ export default function SixthSection() {
       <div className="mt-10 flex justify-center">
         <button
           ref={buttonRef}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
         >
           See all Reviews
         </button>
@@ -138,7 +216,7 @@ export default function SixthSection() {
                 alt={brand.name}
                 width={80}
                 height={80}
-                className="object-contain"
+                className="object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
               />
             </div>
           ))}
