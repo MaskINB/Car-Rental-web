@@ -38,7 +38,7 @@ html {
 }
 
 /* Reset any conflicting styles */
-* {
+html, body, div, section, article, header, footer, main, nav, aside, form, input, button, textarea, select {
   box-sizing: border-box;
 }
 
@@ -68,6 +68,131 @@ body, html {
   .mobile-palette > div {
     width: 100% !important;
     height: 150px !important;
+  }
+}
+
+/* Enhanced smooth scrolling styles */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0b1016;
+}
+
+/* Disable default scrollbar for custom implementation */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 #1a1a1a;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #2563eb, #7c3aed);
+}
+
+/* Smooth transitions for all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Section spacing utilities */
+.section-spacing {
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .section-spacing {
+    padding: 6rem 0;
+    margin-bottom: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding: 8rem 0;
+    margin-bottom: 6rem;
+  }
+}
+
+/* Container utilities */
+.container-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-wrapper {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-wrapper {
+    padding: 0 4rem;
+  }
+}
+
+/* Smooth reveal animations */
+.smooth-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.smooth-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .smooth-reveal {
+    transition: none;
+  }
+  
+  html, body, div, section, article, header, footer, main, nav, aside, form, input, button, textarea, select {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
