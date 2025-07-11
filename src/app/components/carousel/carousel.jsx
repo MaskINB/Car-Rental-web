@@ -193,59 +193,59 @@ const Carousel = () => {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50"></div>
         
-        <div className="relative ">
+        <div className="relative">
           {/* Navbar */}
           <Navbar />
           
-          {/* Main Content */}
-          <div className="flex flex-col items-start justify-center min-h-screen pt-20 px-8">
-            {/* Hero Text */}
-            <div ref={heroRef} className="mb-10 -mt-20 max-w-2xl">
-              <h1 className="text-6xl md:text-8xl font-bold text-white mb-4">
+          {/* Main Content - Responsive padding to account for navbar positioning */}
+          <div className="flex flex-col items-start justify-center min-h-screen pt-16 sm:pt-20 px-4 sm:px-6 lg:px-8">
+            {/* Hero Text - Responsive sizing and positioning */}
+            <div ref={heroRef} className="mb-8 sm:mb-10 -mt-16 pt-15 sm:-mt-20 max-w-full sm:max-w-2xl">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-2 sm:mb-4 leading-tight">
                 The glorious
               </h1>
-              <h2 className="text-6xl md:text-8xl font-bold text-white">
+              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
                 Speed
               </h2>
             </div>
             
-            {/* Animated Booking Form */}
+            {/* Animated Booking Form - Responsive width and margins */}
             <div 
               ref={bookingFormRef}
-              className="w-full max-w-4xl mb-12 transform-gpu"
+              className="w-full max-w-xs sm:max-w-2xl lg:max-w-4xl mb-8 sm:mb-12 transform-gpu"
             >
               <BookingForm />
             </div>
             
-            {/* Feature Cards Section */}
-            <div className="w-full max-w-9xl mb-5 -mt-4">
+            {/* Feature Cards Section - Responsive layout */}
+            <div className="w-full max-w-full sm:max-w-6xl lg:max-w-7xl mb-5 -mt-2 sm:-mt-4">
               {error && (
-                <div className="bg-red-500/20 border border-red-500 text-red-100 px-4 py-3 rounded mb-4">
+                <div className="bg-red-500/20 border border-red-500 text-red-100 px-3 sm:px-4 py-2 sm:py-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
                   <p>⚠️ Failed to load features: {error}</p>
-                  <p className="text-sm">Showing fallback content.</p>
+                  <p className="text-xs sm:text-sm">Showing fallback content.</p>
                 </div>
               )}
               
               {isLoadingFeatures ? (
-                <div className="flex justify-center items-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-                  <span className="ml-4 text-white text-lg">Loading features...</span>
+                <div className="flex justify-center items-center py-8 sm:py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-white"></div>
+                  <span className="ml-3 sm:ml-4 text-white text-base sm:text-lg">Loading features...</span>
                 </div>
               ) : (
                 <div 
                   ref={featureCardsRef}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
                 >
                   {featureCards.map((card) => (
                     <div 
                       key={card.id}
-                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer group"
+                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 sm:p-6 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer group"
                     >
-                      <div className="text-4xl mb-1 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl sm:text-4xl mb-1 group-hover:scale-110 transition-transform duration-300">
                         {card.icon}
                       </div>
-                      <h3 className="text-xl font-bold mb-2 text-red-400">{card.title}</h3>
-                      <p className="text-gray-200 text-sm">{card.description}</p>
+                      <h3 className="text-lg sm:text-xl font-bold mb-2 text-blue-400">{card.title}</h3>
+                      <p className="text-gray-200 text-xs sm:text-sm">{card.description}</p>
                     </div>
                   ))}
                 </div>
