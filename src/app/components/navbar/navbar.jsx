@@ -27,46 +27,94 @@ const Navbar = () => {
   const [authMode, setAuthMode] = useState('signin');
   const navRef = useRef(null);
   const lastScrollY = useRef(0);
+  const scrollTimer = useRef(null);
+  const isScrolling = useRef(false);
 
   useEffect(() => {
     // Initial gentle fade in animation
     if (navRef.current) {
       gsap.fromTo(navRef.current,
-        { opacity: 0, y: -30 },
+        { opacity: 0, y: -100 },
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
       );
     }
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const footerHeight = 400;
+      
+      // Check if user is near footer
+      const isNearFooter = (currentScrollY + windowHeight) >= (documentHeight - footerHeight);
+      
+      // Clear existing timer
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
 
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scrolling down: subtle shrink & fade
-        if (navRef.current) {
+      // Hide navbar in footer area
+      if (isNearFooter) {
+        gsap.to(navRef.current, {
+          y: -100,
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.inOut"
+        });
+        return;
+      }
+
+      // If user is scrolling
+      if (!isScrolling.current) {
+        isScrolling.current = true;
+        
+        // Hide navbar when scrolling starts (only if scrolled past 80px)
+        if (currentScrollY > 80) {
           gsap.to(navRef.current, {
-            opacity: 0.9,
-            scale: 0.98,
-            duration: 0.4,
-            ease: "power2.out"
+            y: -100,
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.inOut"
           });
         }
-      } else if (currentScrollY < lastScrollY.current || currentScrollY < 100) {
-        // Scrolling up: restore
-        if (navRef.current) {
+      }
+
+      // Set timer to show navbar when scrolling stops
+      scrollTimer.current = setTimeout(() => {
+        isScrolling.current = false;
+        
+        // Show navbar when scrolling stops (but not in footer area)
+        if (currentScrollY > 80 && !isNearFooter) {
           gsap.to(navRef.current, {
+            y: 0,
             opacity: 1,
-            scale: 1,
-            duration: 0.4,
+            duration: 0.5,
             ease: "power2.out"
           });
         }
+      }, 100);
+
+      // Always show navbar at top of page
+      if (currentScrollY <= 80) {
+        gsap.to(navRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.out"
+        });
       }
 
       lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
+    };
   }, []);
 
   const handleAuthClick = (mode) => {
