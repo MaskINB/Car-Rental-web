@@ -224,7 +224,7 @@ function Footer() {
   }
 
   return (
-    <footer ref={footerRef} className="bg-gradient-to-b from-gray-900 to-black text-white relative overflow-hidden">
+    <footer ref={footerRef} className="bg-gradient-to-b from-gray-900 to-black text-white relative overflow-hidden py-16">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-32 h-32 bg-blue-500 rounded-full blur-3xl animate-pulse"></div>
