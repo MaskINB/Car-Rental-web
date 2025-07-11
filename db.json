@@ -34,7 +34,7 @@
   ],
   "booking": {
     "id": 1,
-    "location": "Miami, USA",
+    "location": "San Francisco, USA",
     "pickupDate": "2025-07-18",
     "pickupTime": "01:02",
     "returnDate": "2025-07-24",
@@ -313,43 +313,100 @@
         "id": 1,
         "title": "Pages",
         "links": [
-          { "text": "Rentals", "url": "/rentals" },
-          { "text": "Locations", "url": "/locations" },
-          { "text": "FAQ", "url": "/faq" },
-          { "text": "Features", "url": "/features" },
-          { "text": "Blog", "url": "/blog" }
+          {
+            "text": "Rentals",
+            "url": "/rentals"
+          },
+          {
+            "text": "Locations",
+            "url": "/locations"
+          },
+          {
+            "text": "FAQ",
+            "url": "/faq"
+          },
+          {
+            "text": "Features",
+            "url": "/features"
+          },
+          {
+            "text": "Blog",
+            "url": "/blog"
+          }
         ]
       },
       {
         "id": 2,
         "title": "Resources",
         "links": [
-          { "text": "Installation Manual", "url": "/installation-manual" },
-          { "text": "Release Note", "url": "/release-note" },
-          { "text": "Community Help", "url": "/community-help" },
-          { "text": "Documentation", "url": "/documentation" }
+          {
+            "text": "Installation Manual",
+            "url": "/installation-manual"
+          },
+          {
+            "text": "Release Note",
+            "url": "/release-note"
+          },
+          {
+            "text": "Community Help",
+            "url": "/community-help"
+          },
+          {
+            "text": "Documentation",
+            "url": "/documentation"
+          }
         ]
       },
       {
         "id": 3,
         "title": "Company",
         "links": [
-          { "text": "About Us", "url": "/about-us" },
-          { "text": "Career", "url": "/career" },
-          { "text": "Press", "url": "/press" },
-          { "text": "Support", "url": "/support" },
-          { "text": "Contact", "url": "/contact" }
+          {
+            "text": "About Us",
+            "url": "/about-us"
+          },
+          {
+            "text": "Career",
+            "url": "/career"
+          },
+          {
+            "text": "Press",
+            "url": "/press"
+          },
+          {
+            "text": "Support",
+            "url": "/support"
+          },
+          {
+            "text": "Contact",
+            "url": "/contact"
+          }
         ]
       },
       {
         "id": 4,
         "title": "Product",
         "links": [
-          { "text": "Demo", "url": "/demo" },
-          { "text": "Security", "url": "/security" },
-          { "text": "FAQ", "url": "/faq" },
-          { "text": "Features", "url": "/features" },
-          { "text": "Pricing", "url": "/pricing" }
+          {
+            "text": "Demo",
+            "url": "/demo"
+          },
+          {
+            "text": "Security",
+            "url": "/security"
+          },
+          {
+            "text": "FAQ",
+            "url": "/faq"
+          },
+          {
+            "text": "Features",
+            "url": "/features"
+          },
+          {
+            "text": "Pricing",
+            "url": "/pricing"
+          }
         ]
       }
     ],
@@ -381,9 +438,18 @@
     "copyright": {
       "text": "All rights reserved © Premium Rental 2025",
       "links": [
-        { "text": "Privacy Policy", "url": "/privacy-policy" },
-        { "text": "Terms & Condition", "url": "/terms-condition" },
-        { "text": "Cookie Policy", "url": "/cookie-policy" }
+        {
+          "text": "Privacy Policy",
+          "url": "/privacy-policy"
+        },
+        {
+          "text": "Terms & Condition",
+          "url": "/terms-condition"
+        },
+        {
+          "text": "Cookie Policy",
+          "url": "/cookie-policy"
+        }
       ]
     }
   },
@@ -394,4 +460,3 @@
     "totalCities": "100+"
   }
 }
-

@@ -193,8 +193,9 @@ const Carousel = () => {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50"></div>
         
-        <div className="relative z-10">
+        <div className="relative ">
           {/* Navbar */}
+          <Navbar />
           
           {/* Main Content */}
           <div className="flex flex-col items-start justify-center min-h-screen pt-20 px-8">
