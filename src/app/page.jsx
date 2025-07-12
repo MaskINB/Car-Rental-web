@@ -16,7 +16,7 @@ export default function Home() {
     <>
     <Carousel/>
     <Fifthsection/>
-    <Secondsection/>
+    <SecondSection/>
     <Thirdsection/>
     <ForthSection/>
     <Sixthsection/>
