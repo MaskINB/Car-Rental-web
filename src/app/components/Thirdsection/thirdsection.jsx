@@ -10,7 +10,7 @@ const Car3DViewer = dynamic(() => import('./Car3DViewer'), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FifthSection = () => {
+const Thirdsection = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -449,4 +449,4 @@ const FifthSection = () => {
   );
 };
 
-export default FifthSection;
+export default Thirdsection;
