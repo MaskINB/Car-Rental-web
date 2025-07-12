@@ -1,7 +1,7 @@
 import Image from "next/image";
 import "./globals.css";
 import Carousel from "./components/carousel/carousel";
-import SecondSection from "./components/SecondSection/SecondSection";
+import SecondSection from "./components/FirstSection/firstsection";
 import Thirdsection from "./components/Thirdsection/thirdsection";
 import ForthSection from "./components/ForthSection/forthSection";
 import Fifthsection from "./components/FifthSection/fifthsection";
