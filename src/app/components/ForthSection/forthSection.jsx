@@ -23,7 +23,16 @@ export default function ForthSection() {
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/locations.json')
       .then(res => res.json())
-      .then(setLocations)
+      .then(data => {
+        // Extract array safely
+        if (Array.isArray(data)) {
+          setLocations(data);
+        } else if (Array.isArray(data.locations)) {
+          setLocations(data.locations);
+        } else {
+          setLocations([]);
+        }
+      })
       .catch(() => setLocations([]));
   }, []);
 
@@ -234,7 +243,7 @@ export default function ForthSection() {
               ref={citiesContainerRef}
               className="flex flex-wrap gap-4"
             >
-              {locations.map(loc => (
+              {Array.isArray(locations) && locations.map(loc => (
                 <div
                   key={loc.id}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur shadow border border-white/10 hover:bg-white/20 transition-all duration-300 cursor-pointer group"

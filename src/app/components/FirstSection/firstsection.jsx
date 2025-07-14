@@ -7,14 +7,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Orange Arrow SVG
 const Arrow = () => (
   <svg width="38" height="32" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 16H34M34 16L28 10M34 16L28 22" stroke="#60a5fa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+    <path
+      d="M2 16H34M34 16L28 10M34 16L28 22"
+      stroke="#60a5fa"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 // Decorative flower/star SVG
 const Flower = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <path d="M16 0L18.09 11.09L29.39 11.09L19.64 17.82L21.73 28.91L16 22.18L10.27 28.91L12.36 17.82L2.61 11.09L13.91 11.09L16 0Z" fill="#a78bfa"/>
+    <path
+      d="M16 0L18.09 11.09L29.39 11.09L19.64 17.82L21.73 28.91L16 22.18L10.27 28.91L12.36 17.82L2.61 11.09L13.91 11.09L16 0Z"
+      fill="#a78bfa"
+    />
   </svg>
 );
 
@@ -33,10 +42,24 @@ const SecondSection = () => {
   const numbersRef = useRef(null);
 
   useEffect(() => {
-    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/secondsectiondata.json')
-      .then(res => res.json())
-      .then(json => setData(json[0]))
-      .catch(err => setData(null));
+    fetch(
+      'https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/secondsectiondata.json'
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((json) => {
+        if (json.secondsectiondata && json.secondsectiondata.length > 0) {
+          setData(json.secondsectiondata[0]);
+        } else {
+          setData(null);
+        }
+      })
+      .catch((err) => {
+        console.error('Fetch error:', err);
+        setData(null);
+      });
   }, []);
 
   useEffect(() => {
@@ -45,7 +68,7 @@ const SecondSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 80%',
-          toggleActions: 'restart none restart none', // animation runs every time when scrolling into view
+          toggleActions: 'restart none restart none',
         },
       });
 
@@ -72,7 +95,10 @@ const SecondSection = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 items-start">
         {/* Left: text */}
         <div className="flex flex-col justify-start">
-          <h1 ref={titleRef} className="text-5xl font-extrabold uppercase mb-6 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h1
+            ref={titleRef}
+            className="text-5xl font-extrabold uppercase mb-6 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          >
             {data.title}
           </h1>
           <p ref={descRef} className="text-lg text-gray-300 mb-8 max-w-lg">
@@ -87,8 +113,18 @@ const SecondSection = () => {
         </div>
         {/* Right: Hero Image */}
         <div className="flex flex-col items-end relative">
-          <div ref={heroImageRef} className="w-full max-w-xl rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg">
-            <Image src={data.imageMain} alt="Main Car" width={700} height={400} className="object-cover w-full h-full" priority />
+          <div
+            ref={heroImageRef}
+            className="w-full max-w-xl rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg"
+          >
+            <Image
+              src={data.imageMain}
+              alt="Main Car"
+              width={700}
+              height={400}
+              className="object-cover w-full h-full"
+              priority
+            />
           </div>
           <span className="absolute left-[-30px] top-1/2 -translate-y-1/2 hidden lg:block">
             <Flower />
@@ -100,14 +136,25 @@ const SecondSection = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 items-center mt-10">
         {/* Left: Supporting Image */}
         <div className="flex justify-start">
-          <div ref={smallImageRef} className="w-full max-w-md rounded-xl overflow-hidden shadow-lg">
-            <Image src={data.imageSmall} alt="Luxury SUV" width={420} height={240} className="object-cover w-full h-full" />
+          <div
+            ref={smallImageRef}
+            className="w-full max-w-md rounded-xl overflow-hidden shadow-lg"
+          >
+            <Image
+              src={data.imageSmall}
+              alt="Luxury SUV"
+              width={420}
+              height={240}
+              className="object-cover w-full h-full"
+            />
           </div>
         </div>
         {/* Right: Numbers */}
         <div ref={numbersRef} className="flex flex-col items-start justify-center">
           <div className="flex items-center mb-4">
-            <span className="text-lg font-extrabold uppercase tracking-widest text-blue-300 mr-3">Our Numbers</span>
+            <span className="text-lg font-extrabold uppercase tracking-widest text-blue-300 mr-3">
+              Our Numbers
+            </span>
             <Arrow />
           </div>
           <div className="flex flex-row gap-12 mt-2">
