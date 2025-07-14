@@ -21,7 +21,7 @@ export default function ForthSection() {
   const paletteCardRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:4000/locations')
+    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/locations.json')
       .then(res => res.json())
       .then(setLocations)
       .catch(() => setLocations([]));

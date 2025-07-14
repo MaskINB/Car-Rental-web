@@ -33,7 +33,7 @@ const SecondSection = () => {
   const numbersRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:4000/secondsectiondata')
+    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/secondsectiondata.json')
       .then(res => res.json())
       .then(json => setData(json[0]))
       .catch(err => setData(null));

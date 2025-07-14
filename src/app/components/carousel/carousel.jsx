@@ -26,7 +26,7 @@ const Carousel = () => {
     const fetchFeatureCards = async () => {
       try {
         setIsLoadingFeatures(true);
-        const response = await fetch('http://localhost:4000/featureCards');
+        const response = await fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/featureCards.json');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

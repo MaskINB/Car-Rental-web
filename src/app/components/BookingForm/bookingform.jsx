@@ -17,7 +17,7 @@ const BookingForm = () => {
 
   // Load locations from API
   useEffect(() => {
-    fetch('http://localhost:4000/locations')
+    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/locations.json')
       .then(res => res.json())
       .then(data => {
         setLocations(data);
@@ -35,7 +35,7 @@ const BookingForm = () => {
 
   // Load initial booking data from backend
   useEffect(() => {
-    fetch('http://localhost:4000/booking')
+    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/booking.json')
       .then(res => res.json())
       .then(data => {
         setBookingData({
@@ -59,7 +59,7 @@ const BookingForm = () => {
     setBookingData(updatedData);
     
     // Update backend
-    fetch('http://localhost:4000/booking', {
+    fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/booking.json', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ [field]: value })

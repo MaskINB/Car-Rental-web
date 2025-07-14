@@ -30,8 +30,8 @@ function Footer() {
       try {
         setLoading(true);
         const [footerResponse, statsResponse] = await Promise.all([
-          fetch('http://localhost:4000/footerData'),
-          fetch('http://localhost:4000/stats')
+          fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/footerData.json'),
+          fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/stats.json')
         ]);
 
         if (!footerResponse.ok || !statsResponse.ok) {
@@ -60,7 +60,7 @@ function Footer() {
     if (!email) return;
 
     try {
-      const response = await fetch('http://localhost:3001/newsletter', {
+      const response = await fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/newsletter.json', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
