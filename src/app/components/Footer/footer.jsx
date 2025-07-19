@@ -27,20 +27,33 @@ function Footer() {
     const fetchFooterData = async () => {
       try {
         setLoading(true);
-        const [footerResponse, statsResponse] = await Promise.all([
+        const [footerResponse, statsResponse, copyrightResponse] = await Promise.all([
           fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/footerData.json'),
-          fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/stats.json')
+          fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/stats.json'),
+          fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/copyright.json')
         ]);
 
-        if (!footerResponse.ok || !statsResponse.ok) {
+        if (!footerResponse.ok || !statsResponse.ok || !copyrightResponse.ok) {
           throw new Error('Failed to fetch data');
         }
 
         const footerJson = await footerResponse.json();
         const statsJson = await statsResponse.json();
+        const copyrightJson = await copyrightResponse.json();
 
-        setFooterData(footerJson.footerData);
-        setStats(statsJson.stats);
+        // Extract data properly maintaining structure
+        const footerDataFromApi = footerJson.footerData || footerJson;
+        const statsDataFromApi = statsJson.stats || statsJson;
+        const copyrightDataFromApi = copyrightJson.copyright || copyrightJson;
+
+        // Combine footer data with copyright data
+        const combinedFooterData = {
+          ...footerDataFromApi,
+          copyright: copyrightDataFromApi
+        };
+
+        setFooterData(combinedFooterData);
+        setStats(statsDataFromApi);
       } catch (err) {
         setError(err.message);
         console.error('Error fetching footer data:', err);
@@ -57,7 +70,7 @@ function Footer() {
     if (!email) return;
 
     try {
-      const response = await fetch('http://localhost:3001/newsletter', {
+      const response = await fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/copyright.json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, subscribedAt: new Date().toISOString() }),
@@ -213,11 +226,11 @@ function Footer() {
 
       {/* Columns */}
       <div className="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
-        {footerData?.columns?.map((column, index) => (
-          <div key={column.id} ref={el => columnsRef.current[index] = el}>
+        {footerData?.columns && Array.isArray(footerData.columns) && footerData.columns.map((column, index) => (
+          <div key={column.id || index} ref={el => columnsRef.current[index] = el}>
             <h4 className="text-xl font-bold mb-6">{column.title}</h4>
             <ul className="space-y-3">
-              {column.links.map((link, i) => (
+              {column.links && Array.isArray(column.links) && column.links.map((link, i) => (
                 <li key={i}>
                   <Link href={link.url} className="text-gray-300 hover:text-blue-400 transition-colors duration-300">
                     {link.text}
@@ -231,7 +244,7 @@ function Footer() {
 
       {/* Social */}
       <div ref={socialRef} className="flex justify-center space-x-6 mt-10">
-        {footerData?.social?.platforms?.map((platform, i) => (
+        {footerData?.social?.platforms && Array.isArray(footerData.social.platforms) && footerData.social.platforms.map((platform, i) => (
           <a key={i} href={platform.url} target="_blank" rel="noopener noreferrer"
              className="h-10 w-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-500">
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -243,7 +256,18 @@ function Footer() {
 
       {/* Copyright */}
       <div ref={copyrightRef} className="border-t border-gray-700/50 py-8 text-center text-sm text-gray-400">
-        {footerData?.copyright?.text}
+        <div className="mb-4">
+          {footerData?.copyright?.text}
+        </div>
+        {footerData?.copyright?.links && Array.isArray(footerData.copyright.links) && (
+          <div className="flex justify-center space-x-6">
+            {footerData.copyright.links.map((link, i) => (
+              <Link key={i} href={link.url} className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                {link.text}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </footer>
   );
