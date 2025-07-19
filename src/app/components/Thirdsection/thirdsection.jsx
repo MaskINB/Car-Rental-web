@@ -28,7 +28,7 @@ const Thirdsection = () => {
     const fetchCarData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:4000/carcard');
+        const response = await fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/carcard.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const jsonData = await response.json();
         setData(jsonData);
