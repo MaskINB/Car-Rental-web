@@ -32,10 +32,11 @@ const Carousel = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched data:', data); // optional: for debug
+        console.log('Fetched data:', data); // Debug: Check API response structure
 
-        // Extract the array from data.featureCards
-        setFeatureCards(Array.isArray(data.featureCards) ? data.featureCards : []);
+        // Extract the featureCards array from the response
+        const cards = data.featureCards || data;
+        setFeatureCards(Array.isArray(cards) ? cards : []);
         setError(null);
       } catch (err) {
         console.error('Failed to load feature cards:', err);
@@ -173,13 +174,25 @@ const Carousel = () => {
               ) : (
                 <div ref={featureCardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                   {featureCards.map((card) => (
-                    <div key={card.id} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 sm:p-6 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer group">
-                      <div className="text-3xl sm:text-4xl mb-1 group-hover:scale-110 transition-transform duration-300">
-                        {/* Optional: replace icon or badge */}
-                        {card.badge ? card.badge : "⭐"}
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-bold mb-2 text-blue-400">{card.title}</h3>
-                      <p className="text-gray-200 text-xs sm:text-sm">{card.description}</p>
+                    <div key={card.id} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-5 text-white hover:bg-white/15 transition-all duration-300 cursor-pointer group">
+                      {/* Simple Badge */}
+                      {card.badge && (
+                        <div className="mb-3">
+                          <span className="text-xs font-medium text-blue-300 bg-blue-500/20 px-2 py-1 rounded">
+                            {card.badge}
+                          </span>
+                        </div>
+                      )}
+                      
+                      {/* Simple Title */}
+                      <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-blue-300 transition-colors">
+                        {card.title}
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        {card.description}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -188,6 +201,16 @@ const Carousel = () => {
           </div>
         </div>
       </div>
+
+      {/* Custom CSS for line-clamp */}
+      <style jsx>{`
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </>
   )
 }
