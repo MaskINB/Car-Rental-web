@@ -31,10 +31,14 @@ const Thirdsection = () => {
         const response = await fetch('https://raw.githubusercontent.com/MaskINB/car-rental-mock-API/main/carcard.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const jsonData = await response.json();
-        setData(jsonData);
+        // Extract the carcard array from the response
+        const carData = jsonData.carcard || jsonData;
+        // Ensure we always set an array
+        setData(Array.isArray(carData) ? carData : []);
         setError(null);
       } catch (err) {
         setError('Failed to load car data. Please try again later.');
+        setData([]); // Ensure data is always an array
       } finally {
         setLoading(false);
       }
@@ -44,7 +48,7 @@ const Thirdsection = () => {
 
   // Entrance animations
   useEffect(() => {
-    if (data.length > 0 && !loading) {
+    if (Array.isArray(data) && data.length > 0 && !loading) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -151,7 +155,7 @@ const Thirdsection = () => {
     );
   }
 
-  const selectedCar = data.find(car => car.id === selectedCardId);
+  const selectedCar = Array.isArray(data) ? data.find(car => car.id === selectedCardId) : null;
 
   return (
     <section 
@@ -195,7 +199,7 @@ const Thirdsection = () => {
           onTouchEnd={handleTouchEnd}
         >
           <div className="flex space-x-15 w-max">
-            {data.map((car, index) => (
+            {Array.isArray(data) && data.map((car, index) => (
               <div
                 key={car.id}
                 className={`
@@ -308,7 +312,7 @@ const Thirdsection = () => {
         {/* Scroll Indicator */}
         <div className="text-center -mt-2">
           <div className="text-white/60 text-sm">
-            Showing {data.length} premium vehicles
+            Showing {Array.isArray(data) ? data.length : 0} premium vehicles
           </div>
         </div>
       </div>
