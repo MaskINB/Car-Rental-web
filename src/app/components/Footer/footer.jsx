@@ -166,7 +166,7 @@ function Footer() {
   }
 
   return (
-    <footer ref={footerRef} className="bg-gradient-to-b from-gray-900 to-black text-white relative overflow-hidden py-16">
+    <footer ref={footerRef} className="bg-black text-white relative overflow-hidden py-16">
       {/* Animated background circles */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-32 h-32 bg-blue-500 rounded-full blur-3xl animate-pulse"></div>
@@ -175,7 +175,7 @@ function Footer() {
       </div>
 
       {/* Newsletter */}
-      <div ref={newsletterRef} className="bg-gradient-to-r from-gray-800 to-gray-900 py-16 relative">
+      <div ref={newsletterRef} className="bg-black py-16 relative">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-8 md:mb-0">
             <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">

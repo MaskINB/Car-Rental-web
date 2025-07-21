@@ -25,7 +25,7 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  background:#0e1424;
+  background: black;
 }
 
 /* Optional: Ensure smooth scrolling */
@@ -38,7 +38,7 @@ html {
 }
 
 /* Reset any conflicting styles */
-* {
+html, body, div, section, article, header, footer, main, nav, aside, form, input, button, textarea, select, p, h1, h2, h3, h4, h5, h6, ul, ol, li, table, tr, td, th, img, a, span {
   box-sizing: border-box;
 }
 

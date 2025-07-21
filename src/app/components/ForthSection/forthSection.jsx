@@ -200,7 +200,7 @@ export default function ForthSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-30 bg-[#0b1016] overflow-hidden"
+      className="relative py-30 bg-black overflow-hidden"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-5">

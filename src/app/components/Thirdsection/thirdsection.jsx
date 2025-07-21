@@ -160,8 +160,7 @@ const Thirdsection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-22 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0e1424 0%, #1a2332 100%)' }}
+      className="py-22 relative overflow-hidden bg-black"
     >
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

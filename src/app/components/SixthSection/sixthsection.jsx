@@ -162,7 +162,8 @@ export default function SixthSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 max-w-7xl mx-auto px-4 font-sans">
+    <div className="bg-black">
+      <section ref={sectionRef} className="py-16 md:py-24 max-w-7xl mx-auto px-4 font-sans">
       <h2
         ref={titleRef}
         className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center uppercase mb-12 leading-tight tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -223,5 +224,6 @@ export default function SixthSection() {
         </div>
       </div>
     </section>
+    </div>
   );
 }

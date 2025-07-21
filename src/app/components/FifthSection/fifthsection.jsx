@@ -99,7 +99,7 @@ const FifthSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full py-16 md:py-24 bg-[#0b1016] font-sans">
+    <section ref={sectionRef} className="w-full py-16 md:py-24 bg-black font-sans">
       <div className="max-w-6xl mx-auto px-4">
         <h2
           ref={titleRef}

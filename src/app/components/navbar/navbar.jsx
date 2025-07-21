@@ -136,7 +136,7 @@ const Navbar = () => {
     <>
       <nav 
         ref={navRef}
-        className="fixed top-0 left-0 sm:left-180 right-0 z-[9999] bg-white/10 backdrop-blur-md border-b border-white/20 shadow-2xl rounded-b-2xl"
+        className="fixed top-0 left-0 sm:left-180 right-0 z-[9999] bg-black/90 backdrop-blur-md border-b border-white/20 shadow-2xl rounded-b-2xl"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
