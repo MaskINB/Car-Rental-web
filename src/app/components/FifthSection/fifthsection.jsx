@@ -112,7 +112,7 @@ const FifthSection = () => {
             <Link href={vehicle.link} key={vehicle.label} className="group block">
               <div
                 ref={(el) => (cardsRef.current[idx] = el)}
-                className="relative rounded-2xl overflow-hidden shadow-xl aspect-video bg-gray-900 cursor-pointer"
+                className="relative rounded-2xl overflow-hidden shadow-xl aspect-[5/3] bg-gray-900 cursor-pointer"
               >
                 <Image
                   src={vehicle.img}
@@ -123,8 +123,8 @@ const FifthSection = () => {
                   priority={idx === 0}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                <div className="absolute top-6 left-6 flex items-center z-10">
-                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-xl sm:text-2xl font-semibold uppercase tracking-wider drop-shadow">
+                <div className="absolute top-4 left-4 flex items-center z-10">
+                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-lg sm:text-xl font-semibold uppercase tracking-wider drop-shadow">
                     {vehicle.label}
                   </span>
                   <ArrowIcon />
