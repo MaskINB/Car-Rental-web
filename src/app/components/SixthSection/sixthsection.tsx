@@ -175,7 +175,9 @@ export default function SixthSection() {
         {stories.map((story, idx) => (
           <div
             key={story.id}
-            ref={el => cardsRef.current[idx] = el}
+            ref={el => {
+              if (el) cardsRef.current[idx] = el;
+            }}
             className="flex flex-col bg-gray-900 rounded-2xl shadow-lg overflow-hidden cursor-pointer backdrop-blur-sm border border-white/10"
           >
             <div className="relative h-48 w-full">

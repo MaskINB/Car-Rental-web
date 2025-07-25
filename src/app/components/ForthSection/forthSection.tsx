@@ -172,17 +172,18 @@ export default function ForthSection() {
 
       // City badges hover animations
       if (cityBadges) {
-        Array.from(cityBadges).forEach(badge => {
-          badge.addEventListener('mouseenter', () => {
-            gsap.to(badge, { 
+        Array.from(cityBadges).forEach((badge: Element) => {
+          const badgeElement = badge as HTMLElement;
+          badgeElement.addEventListener('mouseenter', () => {
+            gsap.to(badgeElement, { 
               scale: 1.05, 
               y: -2,
               duration: 0.3, 
               ease: 'power2.out' 
             });
           });
-          badge.addEventListener('mouseleave', () => {
-            gsap.to(badge, { 
+          badgeElement.addEventListener('mouseleave', () => {
+            gsap.to(badgeElement, { 
               scale: 1, 
               y: 0,
               duration: 0.3, 

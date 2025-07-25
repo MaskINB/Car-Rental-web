@@ -1,21 +1,30 @@
-// components/forms/SignInForm.jsx
+// components/forms/SignInForm.tsx
 'use client';
 import React, { useState } from 'react';
+import { SignInFormData, FormChangeHandler, FormSubmitHandler } from '@/types';
 
-const SignInForm = ({ onClose, onSwitchToSignUp }) => {
-  const [formData, setFormData] = useState({
+interface SignInFormProps {
+  onClose: () => void;
+  onSwitchToSignUp: () => void;
+}
+
+const SignInForm: React.FC<SignInFormProps> = ({ onClose, onSwitchToSignUp }) => {
+  const [formData, setFormData] = useState<SignInFormData>({
     email: '',
-    password: ''
+    password: '',
+    rememberMe: false
   });
 
-  const handleChange = (e) => {
+  const handleChange: FormChangeHandler = (e) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormSubmitHandler = (e) => {
     e.preventDefault();
     // Handle sign-in logic here
     console.log('Sign in data:', formData);
@@ -72,7 +81,7 @@ const SignInForm = ({ onClose, onSwitchToSignUp }) => {
 
       <div className="mt-6 text-center">
         <p className="text-gray-400">
-          Don't have an account?
+          Don&apos;t have an account?
           <button
             onClick={onSwitchToSignUp}
             className="text-blue-400 hover:text-blue-300 ml-1 font-medium transition-colors duration-200"

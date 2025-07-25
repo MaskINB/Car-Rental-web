@@ -5,8 +5,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import SignInForm from './forms/SignInForm';
 import SignUpForm from './forms/SignUpForm';
+import { NavItem } from '@/types';
 
-const navData = {
+interface Logo {
+  text: string;
+  url: string;
+  image: string;
+}
+
+interface NavData {
+  logo: Logo;
+  navigation: NavItem[];
+}
+
+const navData: NavData = {
   logo: {
     text: "Trizent",
     url: "/",
@@ -21,15 +33,15 @@ const navData = {
   ]
 };
 
-const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState('signin');
-  const [isMobile, setIsMobile] = useState(false);
-  const navRef = useRef(null);
-  const mobileMenuRef = useRef(null);
-  const lastScrollY = useRef(0);
-  const isHidden = useRef(false);
+const Navbar: React.FC = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const navRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef<number>(0);
+  const isHidden = useRef<boolean>(false);
 
   // Check if device is mobile
   useEffect(() => {
@@ -150,8 +162,12 @@ const Navbar = () => {
                   height={32}
                   className="object-contain rounded-lg sm:w-10 sm:h-10"
                   onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextElementSibling.style.display = 'flex';
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const nextSibling = target.nextElementSibling as HTMLElement;
+                    if (nextSibling) {
+                      nextSibling.style.display = 'flex';
+                    }
                   }}
                 />
                 <span 

@@ -1,23 +1,34 @@
-// components/forms/SignUpForm.jsx
+// components/forms/SignUpForm.tsx
 'use client';
 import React, { useState } from 'react';
+import { SignUpFormData, FormChangeHandler, FormSubmitHandler } from '@/types';
 
-const SignUpForm = ({ onClose, onSwitchToSignIn }) => {
-  const [formData, setFormData] = useState({
+interface SignUpFormProps {
+  onClose: () => void;
+  onSwitchToSignIn: () => void;
+}
+
+const SignUpForm: React.FC<SignUpFormProps> = ({ onClose, onSwitchToSignIn }) => {
+  const [formData, setFormData] = useState<SignUpFormData>({
+    firstName: '',
+    lastName: '',
     fullName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    acceptTerms: false
   });
 
-  const handleChange = (e) => {
+  const handleChange: FormChangeHandler = (e) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormSubmitHandler = (e) => {
     e.preventDefault();
     // Handle sign-up logic here
     if (formData.password !== formData.confirmPassword) {

@@ -1,16 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
 import { FaSearch, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import { BookingFormData, FormChangeHandler } from "@/types";
 
-const BookingForm = () => {
-  const [bookingData, setBookingData] = useState({
+interface LocationOption {
+  id?: string;
+  value: string;
+  label: string;
+}
+
+const BookingForm: React.FC = () => {
+  const [bookingData, setBookingData] = useState<BookingFormData>({
     location: "",
     pickupDate: "",
     returnDate: ""
   });
-  const [locations, setLocations] = useState([]); 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
+  const [locations, setLocations] = useState<LocationOption[]>([]); 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoadingLocations, setIsLoadingLocations] = useState<boolean>(true);
 
   // Fetch locations data safely
   useEffect(() => {
@@ -43,7 +50,7 @@ const BookingForm = () => {
     };
 
     fetchLocations();
-  }, []);
+  }, [bookingData.location]);
 
   // Fetch booking data safely
   useEffect(() => {

@@ -111,7 +111,9 @@ const FifthSection = () => {
           {VEHICLES.map((vehicle, idx) => (
             <Link href={vehicle.link} key={vehicle.label} className="group block">
               <div
-                ref={(el) => (cardsRef.current[idx] = el)}
+                ref={(el) => {
+                  if (el) cardsRef.current[idx] = el;
+                }}
                 className="relative rounded-2xl overflow-hidden shadow-xl aspect-[5/3] bg-gray-900 cursor-pointer"
               >
                 <Image

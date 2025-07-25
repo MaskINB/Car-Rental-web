@@ -415,7 +415,7 @@ const CarServicesPage = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-400 mb-3 italic text-sm">"{testimonial.comment}"</p>
+                <p className="text-gray-400 mb-3 italic text-sm">&quot;{testimonial.comment}&quot;</p>
                 <div className="flex justify-between items-center text-xs">
                   <p className="text-blue-400 font-medium">{testimonial.service}</p>
                   {testimonial.location && (

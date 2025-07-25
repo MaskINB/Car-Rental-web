@@ -39,7 +39,9 @@ export default function PaletteCard() {
       {CITIES.map((city, idx) => (
         <div
           key={idx}
-          ref={el => swatchRefs.current[idx] = el}
+          ref={el => {
+            if (el) swatchRefs.current[idx] = el;
+          }}
           onMouseEnter={() => handleEnter(idx)}
           onMouseLeave={() => handleLeave(idx)}
           onClick={() => handleClick(city.slug)}

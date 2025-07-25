@@ -9,9 +9,7 @@ import Sixthsection from "./components/SixthSection/sixthsection";
 import Footer from "./components/Footer/footer";
 import Link from "next/link";
 
-
-
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <>
     <Carousel/>
@@ -24,3 +22,5 @@ export default function Home() {
     </>
   );
 }
+
+export default Home;

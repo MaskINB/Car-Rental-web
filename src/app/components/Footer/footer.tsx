@@ -8,20 +8,78 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-function Footer() {
-  const [footerData, setFooterData] = useState(null);
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+interface FooterLink {
+  name: string;
+  href: string;
+  text?: string;
+  url?: string;
+}
 
-  const footerRef = useRef(null);
-  const newsletterRef = useRef(null);
-  const columnsRef = useRef([]);
-  const socialRef = useRef(null);
-  const copyrightRef = useRef(null);
-  const statsRef = useRef(null);
+interface FooterColumn {
+  id?: string;
+  title: string;
+  links: FooterLink[];
+}
+
+interface SocialPlatform {
+  name: string;
+  icon: string;
+  url: string;
+}
+
+interface FooterData {
+  company: {
+    name: string;
+    description: string;
+    logo: string;
+  };
+  columns: FooterColumn[];
+  social: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+    platforms?: SocialPlatform[];
+  };
+  newsletter: {
+    title: string;
+    description: string;
+    subtitle?: string;
+    placeholder: string;
+  };
+  copyright: string | {
+    text: string;
+    links?: FooterLink[];
+  };
+}
+
+interface Stats {
+  cars: number;
+  customers: number;
+  locations: number;
+  years: number;
+  totalUsers?: number;
+  totalCars?: number;
+  citiesServed?: number;
+  yearsExperience?: number;
+  totalBookings?: number;
+  totalCities?: number;
+}
+
+const Footer: React.FC = () => {
+  const [footerData, setFooterData] = useState<FooterData | null>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>('');
+  const [subscribed, setSubscribed] = useState<boolean>(false);
+
+  const footerRef = useRef<HTMLElement>(null);
+  const newsletterRef = useRef<HTMLDivElement>(null);
+  const columnsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const socialRef = useRef<HTMLDivElement>(null);
+  const copyrightRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchFooterData = async () => {
@@ -65,7 +123,7 @@ function Footer() {
     fetchFooterData();
   }, []);
 
-  const handleSubscribe = async (e) => {
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return;
 
@@ -227,7 +285,9 @@ function Footer() {
       {/* Columns */}
       <div className="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
         {footerData?.columns && Array.isArray(footerData.columns) && footerData.columns.map((column, index) => (
-          <div key={column.id || index} ref={el => columnsRef.current[index] = el}>
+          <div key={column.id || index} ref={el => {
+            if (el) columnsRef.current[index] = el;
+          }}>
             <h4 className="text-xl font-bold mb-6">{column.title}</h4>
             <ul className="space-y-3">
               {column.links && Array.isArray(column.links) && column.links.map((link, i) => (
@@ -257,13 +317,15 @@ function Footer() {
       {/* Copyright */}
       <div ref={copyrightRef} className="border-t border-gray-700/50 py-8 text-center text-sm text-gray-400">
         <div className="mb-4">
-          {footerData?.copyright?.text}
+          {typeof footerData?.copyright === 'string' 
+            ? footerData.copyright 
+            : footerData?.copyright?.text}
         </div>
-        {footerData?.copyright?.links && Array.isArray(footerData.copyright.links) && (
+        {typeof footerData?.copyright !== 'string' && footerData?.copyright?.links && Array.isArray(footerData.copyright.links) && (
           <div className="flex justify-center space-x-6">
             {footerData.copyright.links.map((link, i) => (
-              <Link key={i} href={link.url} className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
-                {link.text}
+              <Link key={i} href={link.url || link.href} className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                {link.text || link.name}
               </Link>
             ))}
           </div>

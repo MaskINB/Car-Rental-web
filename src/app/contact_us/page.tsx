@@ -5,6 +5,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../components/navbar/navbar';
 import Footer from '../components/Footer/footer';
 import { 
+  ContactFormData, 
+  ContactInfo, 
+  Location, 
+  FAQ, 
+  SocialMedia, 
+  SubmitStatus,
+  FormChangeHandler,
+  FormSubmitHandler
+} from '@/types';
+import { 
   FaPhone, 
   FaEnvelope,
   FaMapMarkerAlt,
@@ -26,9 +36,9 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ContactUsPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState({
+const ContactUsPage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     phone: '',
@@ -36,14 +46,14 @@ const ContactUsPage = () => {
     message: '',
     inquiryType: 'general'
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
   // Animation refs
-  const heroRef = useRef(null);
-  const formRef = useRef(null);
-  const contactInfoRef = useRef(null);
-  const faqRef = useRef(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const contactInfoRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
 
   // Initialize page
   useEffect(() => {
@@ -77,7 +87,7 @@ const ContactUsPage = () => {
     }
   }, [isLoading]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange: FormChangeHandler = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -85,7 +95,7 @@ const ContactUsPage = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit: FormSubmitHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -110,7 +120,7 @@ const ContactUsPage = () => {
     }, 2000);
   };
 
-  const contactInfo = [
+  const contactInfo: ContactInfo[] = [
     {
       icon: FaPhone,
       title: "Phone Support",
@@ -145,7 +155,7 @@ const ContactUsPage = () => {
     }
   ];
 
-  const locations = [
+  const locations: Location[] = [
     {
       city: "New York",
       address: "123 Business Center Drive, NY 10001",
@@ -172,7 +182,7 @@ const ContactUsPage = () => {
     }
   ];
 
-  const faqs = [
+  const faqs: FAQ[] = [
     {
       question: "How can I make a reservation?",
       answer: "You can make a reservation through our website, mobile app, or by calling our customer service. Online bookings are available 24/7."
@@ -232,7 +242,7 @@ const ContactUsPage = () => {
                 Contact Us
               </h1>
               <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
               </p>
             </div>
 
@@ -271,13 +281,13 @@ const ContactUsPage = () => {
             <div ref={formRef} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Send us a Message</h2>
-                <p className="text-gray-400">Fill out the form below and we'll get back to you shortly.</p>
+                <p className="text-gray-400">Fill out the form below and we&apos;ll get back to you shortly.</p>
               </div>
 
               {submitStatus === 'success' && (
                 <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-6 flex items-center">
                   <FaCheckCircle className="text-green-400 mr-3" />
-                  <span className="text-green-300">Message sent successfully! We'll get back to you soon.</span>
+                  <span className="text-green-300">Message sent successfully! We&apos;ll get back to you soon.</span>
                 </div>
               )}
 
@@ -380,7 +390,7 @@ const ContactUsPage = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    rows="5"
+                    rows={5}
                     placeholder="Tell us more about your inquiry..."
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/15 transition-all resize-none"
                     required
@@ -436,12 +446,12 @@ const ContactUsPage = () => {
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-white mb-4">Follow Us</h3>
                 <div className="flex space-x-4">
-                  {[
+                  {([
                     { icon: FaFacebook, name: 'Facebook', color: 'hover:bg-blue-600' },
                     { icon: FaTwitter, name: 'Twitter', color: 'hover:bg-sky-500' },
                     { icon: FaInstagram, name: 'Instagram', color: 'hover:bg-pink-600' },
                     { icon: FaLinkedin, name: 'LinkedIn', color: 'hover:bg-blue-700' }
-                  ].map((social, index) => (
+                  ] as SocialMedia[]).map((social, index) => (
                     <button
                       key={index}
                       className={`w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-white transition-all ${social.color}`}

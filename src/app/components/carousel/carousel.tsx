@@ -9,16 +9,25 @@ import Link from 'next/link';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const Carousel = () => {
-  const heroRef = useRef(null);
-  const bookingFormRef = useRef(null);
-  const featureCardsRef = useRef(null);
-  const seeMoreButtonRef = useRef(null);
+interface FeatureCard {
+  id: string | number;
+  title: string;
+  description: string;
+  icon: string;
+  color?: string;
+  badge?: string;
+}
+
+const Carousel: React.FC = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const bookingFormRef = useRef<HTMLDivElement>(null);
+  const featureCardsRef = useRef<HTMLDivElement>(null);
+  const seeMoreButtonRef = useRef<HTMLDivElement>(null);
 
   // State for feature cards
-  const [featureCards, setFeatureCards] = useState([]);
-  const [isLoadingFeatures, setIsLoadingFeatures] = useState(true);
-  const [error, setError] = useState(null);
+  const [featureCards, setFeatureCards] = useState<FeatureCard[]>([]);
+  const [isLoadingFeatures, setIsLoadingFeatures] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Load feature cards from API
   useEffect(() => {
