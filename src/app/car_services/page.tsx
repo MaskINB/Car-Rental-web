@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import Navbar from '../components/navbar/navbar';
 import Footer from '../components/Footer/footer';
 import { 
@@ -302,10 +303,13 @@ const CarServicesPage = () => {
               >
                 {/* Compact Service Image */}
                 <div className="relative h-32 overflow-hidden">
-                  <img 
-                    src={service.image} 
+                  <Image
+                    src={service.image}
                     alt={service.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    priority={true}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute top-2 right-2 bg-blue-500/80 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-medium">
@@ -479,10 +483,13 @@ const CarServicesPage = () => {
           <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl overflow-hidden max-w-lg w-full">
             {/* Modal Image */}
             <div className="relative h-48">
-              <img 
-                src={selectedService.image} 
+              <Image
+                src={selectedService.image}
                 alt={selectedService.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 600px"
+                priority={true}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
