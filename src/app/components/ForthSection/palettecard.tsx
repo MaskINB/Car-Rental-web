@@ -1,9 +1,15 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { useRouter } from 'next/navigation';
 
-const CITIES = [
+interface City {
+  img: string;
+  name: string;
+  slug: string;
+}
+
+const CITIES: City[] = [
   { img: '/image/paris.jpg', name: 'Paris', slug: '/car_services' },
   { img: '/image/london.jpeg', name: 'London', slug: '/car_services' },
   { img: '/image/Tokyo.jpg', name: 'Tokyo', slug: '/car_services' },
@@ -11,55 +17,72 @@ const CITIES = [
 ];
 
 export default function PaletteCard() {
-  const swatchRefs = useRef([]);
+  const swatchRefs = useRef<(HTMLDivElement | null)[]>([]);
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const handleEnter = (i) => {
-    gsap.to(swatchRefs.current[i], {
-      width: 600,
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleInteraction = (idx: number, isEntering: boolean) => {
+    if (isMobile) return;
+
+    gsap.to(swatchRefs.current[idx], {
+      width: isEntering ? 600 : 200,
       duration: 0.5,
       ease: 'power2.out'
     });
   };
 
-  const handleLeave = (i) => {
-    gsap.to(swatchRefs.current[i], {
-      width: 200,
-      duration: 0.5,
-      ease: 'power2.inOut'
-    });
-  };
+  const handleMobileClick = (idx: number, slug: string) => {
+    if (!isMobile) {
+      router.push(slug);
+      return;
+    }
 
-  const handleClick = (slug) => {
-    router.push(slug);
+    // Expand the clicked one, shrink others using flexGrow
+    swatchRefs.current.forEach((ref, i) => {
+      gsap.to(ref, {
+        flexGrow: i === idx ? 4 : 1, // The active one gets more space
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+
+    // Optional: Navigate on second tap or keep as expansion only
+    // router.push(slug); 
   };
 
   return (
-    <div className="relative w-[1200px] h-[500px] rounded-xl shadow-lg overflow-hidden flex max-w-full flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row w-full max-w-[1200px] h-[600px] md:h-[500px] mx-auto overflow-hidden rounded-xl shadow-lg bg-black">
       {CITIES.map((city, idx) => (
         <div
-          key={idx}
-          ref={el => {
-            if (el) swatchRefs.current[idx] = el;
-          }}
-          onMouseEnter={() => handleEnter(idx)}
-          onMouseLeave={() => handleLeave(idx)}
-          onClick={() => handleClick(city.slug)}
-          className={`
-            relative cursor-pointer flex items-end transition-all
-            ${idx === 0 ? 'rounded-tl-xl md:rounded-bl-xl' : ''} 
-            ${idx === CITIES.length - 1 ? 'rounded-tr-xl md:rounded-br-xl' : ''}
-          `}
+          key={city.name}
+          ref={(el) => { swatchRefs.current[idx] = el; }}
+          onMouseEnter={() => handleInteraction(idx, true)}
+          onMouseLeave={() => handleInteraction(idx, false)}
+          onClick={() => handleMobileClick(idx, city.slug)}
+          className="relative cursor-pointer flex items-center justify-center md:items-end overflow-hidden transition-all duration-500"
           style={{
-            width: 200,
-            height: '100%',
+            // flexGrow: 1 ensures they fill the container equally by default
+            flexGrow: 1,
+            width: isMobile ? '100%' : '200px',
             backgroundImage: `url(${city.img})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
           }}
         >
-          <div className="absolute bottom-0 w-full bg-black/60 text-white text-center text-[14px] font-semibold py-2">
-            {city.name}
+          {/* Overlay to ensure text is readable regardless of image brightness */}
+          <div className="absolute inset-0 bg-black/40 hover:bg-black/20 transition-colors" />
+          
+          <div className="relative z-10 w-full py-4 text-center">
+            <h3 className="text-white text-xl md:text-2xl font-bold uppercase tracking-tighter md:tracking-widest">
+              {city.name}
+            </h3>
           </div>
         </div>
       ))}
