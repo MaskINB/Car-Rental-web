@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import Navbar from '../components/navbar/navbar';
 import Footer from '../components/Footer/footer';
 import { 
@@ -463,10 +464,14 @@ const CarPage = () => {
               >
                 {/* Car Image */}
                 <div className="relative h-40 overflow-hidden">
-                  <img 
-                    src={car.image} 
+                  <Image
+                    src={car.image}
                     alt={car.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    style={{ objectFit: 'cover' }}
+                    priority={true}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   
@@ -591,10 +596,14 @@ const CarPage = () => {
           <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl overflow-hidden max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             {/* Modal Image */}
             <div className="relative h-60">
-              <img 
-                src={selectedCar.image} 
+              <Image
+                src={selectedCar.image}
                 alt={selectedCar.name}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 600px"
+                className="object-cover"
+                style={{ objectFit: 'cover' }}
+                priority={true}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               
